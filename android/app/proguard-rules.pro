@@ -1,0 +1,3 @@
+-keep class com.stripe.** { *; }
+-keep class com.stripe.android.** { *; }
+-dontwarn com.stripe.**
