@@ -3,6 +3,7 @@ import 'dart:developer' as developer;
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:csv/csv.dart';
 import 'package:nutriapp/services/fat_calculator_service.dart';
+import 'package:nutriapp/services/gi_trigger_service.dart';
 
 class MealItem {
   final String title;
@@ -13,6 +14,7 @@ class MealItem {
   final String emoji;
   final String cuisine;
   final Set<String> dietaryTags;
+  final List<String> giTriggers;
 
   MealItem({
     required this.title,
@@ -23,7 +25,10 @@ class MealItem {
     required this.emoji,
     this.cuisine = "General",
     Set<String>? dietaryTags,
-  }) : dietaryTags = dietaryTags ?? <String>{};
+    List<String>? giTriggers,
+  })  : dietaryTags = dietaryTags ?? <String>{},
+        giTriggers =
+            giTriggers ?? GiTriggerService.classifyFood(title);
 }
 
 class AIMealPlanGenerator {
@@ -464,6 +469,7 @@ class AIMealPlanGenerator {
     MealItem? currentMeal,
     int? calorieBudget,
     bool forceNew = false,
+    List<String> activeGiTriggers = const [],
   }) {
     final String cleanCuisine =
         (cuisine ?? dietPreference ?? '').toLowerCase().trim();
@@ -484,6 +490,22 @@ class AIMealPlanGenerator {
       }).toList();
       if (vegPool.isNotEmpty) {
         pool = vegPool;
+      }
+    }
+
+    // 1.5 The GI Filter Gate (Deterministic Hard Exclusion for Gut Shield)
+    if (activeGiTriggers.isNotEmpty) {
+      final giSafePool = pool.where((m) {
+        return GiTriggerService.isFoodSafe(
+          m.title,
+          activeGiTriggers,
+          explicitTriggers: m.giTriggers,
+        );
+      }).toList();
+
+      // Clinical Fallback safeguard: maintain safe candidates per meal slot
+      if (giSafePool.isNotEmpty) {
+        pool = giSafePool;
       }
     }
 
@@ -566,6 +588,7 @@ class AIMealPlanGenerator {
         highlights: picked.highlights,
         cuisine: picked.cuisine,
         dietaryTags: picked.dietaryTags,
+        giTriggers: picked.giTriggers,
         nutrition: {
           "Calories": "$calorieBudget",
           "Protein": "${targets.protein}g",
@@ -594,6 +617,7 @@ class AIMealPlanGenerator {
     MealItem? currentMeal,
     int? calorieBudget,
     bool forceNew = false,
+    List<String> activeGiTriggers = const [],
   }) {
     return _pickMeal(
       type: "Breakfast",
@@ -605,6 +629,7 @@ class AIMealPlanGenerator {
       currentMeal: currentMeal,
       calorieBudget: calorieBudget,
       forceNew: forceNew,
+      activeGiTriggers: activeGiTriggers,
     );
   }
 
@@ -617,6 +642,7 @@ class AIMealPlanGenerator {
     MealItem? currentMeal,
     int? calorieBudget,
     bool forceNew = false,
+    List<String> activeGiTriggers = const [],
   }) {
     return _pickMeal(
       type: "Lunch",
@@ -628,6 +654,7 @@ class AIMealPlanGenerator {
       currentMeal: currentMeal,
       calorieBudget: calorieBudget,
       forceNew: forceNew,
+      activeGiTriggers: activeGiTriggers,
     );
   }
 
@@ -640,6 +667,7 @@ class AIMealPlanGenerator {
     MealItem? currentMeal,
     int? calorieBudget,
     bool forceNew = false,
+    List<String> activeGiTriggers = const [],
   }) {
     return _pickMeal(
       type: "Dinner",
@@ -651,6 +679,7 @@ class AIMealPlanGenerator {
       currentMeal: currentMeal,
       calorieBudget: calorieBudget,
       forceNew: forceNew,
+      activeGiTriggers: activeGiTriggers,
     );
   }
 
@@ -663,6 +692,7 @@ class AIMealPlanGenerator {
     MealItem? currentMeal,
     int? calorieBudget,
     bool forceNew = false,
+    List<String> activeGiTriggers = const [],
   }) {
     return _pickMeal(
       type: "Snack",
@@ -674,6 +704,7 @@ class AIMealPlanGenerator {
       currentMeal: currentMeal,
       calorieBudget: calorieBudget,
       forceNew: forceNew,
+      activeGiTriggers: activeGiTriggers,
     );
   }
 }

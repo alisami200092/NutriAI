@@ -1,6 +1,7 @@
 import 'package:csv/csv.dart';
 import 'package:flutter/services.dart';
 import 'dart:developer' as developer;
+import 'package:nutriapp/services/gi_trigger_service.dart';
 
 class MealService {
   List<List<dynamic>> _generalData = [];
@@ -69,13 +70,14 @@ class MealService {
   }
 
   // ---------------------------------------------------------------------------
-  // 2. MAIN RECOMMENDATION FUNCTION
+  // 2. MAIN RECOMMENDATION FUNCTION (KNN + GI GATE)
   // ---------------------------------------------------------------------------
   Future<Map<String, String>> recommendMeal({
     required double targetCalories,
     required String cuisine,
     required String dietType,
     required String restriction,
+    List<String> activeGiTriggers = const [],
   }) async {
     await loadData();
 
@@ -92,7 +94,7 @@ class MealService {
         cleanCuisine.contains('indian') ||
         cleanDiet.contains('indian'));
 
-    developer.log("recommendMeal: target=$targetCalories, cuisine=$cleanCuisine, isPakistani=$isPakistani, isIndian=$isIndian", name: 'MealService');
+    developer.log("recommendMeal: target=$targetCalories, cuisine=$cleanCuisine, isPakistani=$isPakistani, isIndian=$isIndian, giTriggers=$activeGiTriggers", name: 'MealService');
 
     if (isPakistani) {
       return _getKnnPlan(
@@ -100,6 +102,7 @@ class MealService {
         targetCalories,
         cleanDiet,
         cleanRestriction,
+        activeGiTriggers: activeGiTriggers,
         sourceLabel: "Pakistani (FCTP Offline KNN)",
       );
     } else if (isIndian) {
@@ -108,6 +111,7 @@ class MealService {
         targetCalories,
         cleanDiet,
         cleanRestriction,
+        activeGiTriggers: activeGiTriggers,
         sourceLabel: "Indian (Offline KNN)",
       );
     } else {
@@ -116,19 +120,21 @@ class MealService {
         targetCalories,
         cleanDiet,
         cleanRestriction,
+        activeGiTriggers: activeGiTriggers,
         sourceLabel: "General (Offline KNN)",
       );
     }
   }
 
   // ---------------------------------------------------------------------------
-  // 4. GENERAL LOGIC (KNN + Safe Universe)
+  // 4. GENERAL LOGIC (KNN + Safe Universe + GI Gate)
   // ---------------------------------------------------------------------------
   Map<String, String> _getKnnPlan(
     List<List<dynamic>> data,
     double target,
     String diet,
     String restriction, {
+    List<String> activeGiTriggers = const [],
     String sourceLabel = "General (Offline KNN)",
   }) {
     List<dynamic> header = data[0]
@@ -185,6 +191,28 @@ class MealService {
         name: 'MealService',
       );
       safeUniverse = fullPool;
+    }
+
+    // --- STEP 1.5: THE GI FILTER GATE (Deterministic Hard Exclusion) ---
+    if (activeGiTriggers.isNotEmpty) {
+      final giSafeUniverse = safeUniverse.where((row) {
+        final rowString = row.join(' ').toLowerCase();
+        return GiTriggerService.isFoodSafe(rowString, activeGiTriggers);
+      }).toList();
+
+      // Clinical Fallback safeguard: maintain safe candidates
+      if (giSafeUniverse.isNotEmpty) {
+        safeUniverse = giSafeUniverse;
+        developer.log(
+          "🛡️ Gut Shield Filter Applied: ${giSafeUniverse.length} safe candidates remaining.",
+          name: 'MealService',
+        );
+      } else {
+        developer.log(
+          "⚠️ Gut Shield Filter produced 0 meals. Safeguard fallback triggered.",
+          name: 'MealService',
+        );
+      }
     }
 
     // --- STEP 2: PARSE CONDITIONS AND DIET PREFERENCES ---

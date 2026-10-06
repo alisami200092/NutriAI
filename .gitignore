@@ -55,3 +55,9 @@ app.*.map.json
 assets/*.env
 !*.env.example
 !assets/*.env.example
+
+# Firebase credentials & API keys
+google-services.json
+**/google-services.json
+GoogleService-Info.plist
+**/GoogleService-Info.plist

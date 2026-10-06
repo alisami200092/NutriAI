@@ -20,55 +20,168 @@ class ChatMessageBubble extends StatelessWidget {
     final imageBase64 = msg["imageBase64"];
     final screenWidth = MediaQuery.of(context).size.width;
 
-    return Align(
-      alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
-      child: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: screenWidth * 0.78),
-        child: Container(
-          margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: isUser
-                ? const Color.fromRGBO(55, 201, 125, 0.15)
-                : Colors.grey.shade200,
-            borderRadius: BorderRadius.only(
-              topLeft: const Radius.circular(12),
-              topRight: const Radius.circular(12),
-              bottomLeft: Radius.circular(isUser ? 12 : 4),
-              bottomRight: Radius.circular(isUser ? 4 : 12),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+      child: Row(
+        mainAxisAlignment:
+            isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Coach Avatar on Left for Bot
+          if (!isUser) ...[
+            Container(
+              margin: const EdgeInsets.only(top: 2, right: 8),
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                color: const Color(0xFFF1F8E9),
+                shape: BoxShape.circle,
+                border: Border.all(color: const Color(0xFFC8E6C9), width: 1.2),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.04),
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Center(
+                child: Image.asset(
+                  "assets/images/n-logo.png",
+                  height: 18,
+                  width: 18,
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
+          ],
+
+          // Bubble Container
+          ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: isUser ? screenWidth * 0.78 : screenWidth * 0.75,
+            ),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
+              decoration: BoxDecoration(
+                color: isUser ? null : Colors.white,
+                gradient: isUser
+                    ? const LinearGradient(
+                        colors: [Color(0xFF2E7D32), Color(0xFF388E3C)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      )
+                    : null,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(isUser ? 16 : 4),
+                  topRight: Radius.circular(isUser ? 4 : 16),
+                  bottomLeft: const Radius.circular(16),
+                  bottomRight: const Radius.circular(16),
+                ),
+                border: isUser
+                    ? null
+                    : Border.all(color: const Color(0xFFE8F5E9), width: 1.2),
+                boxShadow: [
+                  BoxShadow(
+                    color: isUser
+                        ? Color(0xFF2E7D32).withValues(alpha: 0.18)
+                        : Colors.black.withValues(alpha: 0.04),
+                    blurRadius: 6,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (!isUser) ...[
+                    const Text(
+                      "NutriBot",
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w800,
+                        color: Color(0xFF2E7D32),
+                        letterSpacing: 0.3,
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                  ],
+                  if (imageBase64 != null && imageBase64.toString().isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.memory(
+                          base64Decode(imageBase64),
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, _, _) =>
+                              const Icon(Icons.broken_image, color: Colors.grey),
+                        ),
+                      ),
+                    ),
+                  if (text.isNotEmpty)
+                    _buildFormattedText(text, isUser),
+                ],
+              ),
             ),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (imageBase64 != null && imageBase64.toString().isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.memory(
-                      base64Decode(imageBase64),
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, _, _) =>
-                          const Icon(Icons.broken_image, color: Colors.grey),
-                    ),
-                  ),
-                ),
-              if (text.isNotEmpty)
-                Text(
-                  text,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: isUser
-                        ? const Color.fromRGBO(21, 61, 39, 1.0)
-                        : Colors.black87,
-                    height: 1.3,
-                  ),
-                ),
-            ],
-          ),
-        ),
+        ],
       ),
+    );
+  }
+
+  Widget _buildFormattedText(String rawText, bool isUser) {
+    // 1. Clean out annoying triple asterisks or markdown headers
+    String cleaned = rawText
+        .replaceAll(RegExp(r'\*{3,}'), '')
+        .replaceAll(RegExp(r'#{1,6}\s*'), '')
+        .replaceAll(RegExp(r'^\s*[-*]\s+', multiLine: true), '• ');
+
+    // 2. Base text styles
+    final baseStyle = TextStyle(
+      fontSize: 14.5,
+      height: 1.45,
+      color: isUser ? Colors.white : const Color(0xFF212121),
+    );
+    final boldStyle = TextStyle(
+      fontSize: 14.5,
+      height: 1.45,
+      fontWeight: FontWeight.bold,
+      color: isUser ? Colors.white : const Color(0xFF1B5E20),
+    );
+
+    // 3. Match bold spans like **bold text**
+    final spans = <TextSpan>[];
+    final regex = RegExp(r'\*\*(.+?)\*\*');
+    int lastIndex = 0;
+
+    for (final match in regex.allMatches(cleaned)) {
+      if (match.start > lastIndex) {
+        spans.add(TextSpan(
+          text: cleaned.substring(lastIndex, match.start),
+          style: baseStyle,
+        ));
+      }
+      spans.add(TextSpan(
+        text: match.group(1),
+        style: boldStyle,
+      ));
+      lastIndex = match.end;
+    }
+
+    if (lastIndex < cleaned.length) {
+      spans.add(TextSpan(
+        text: cleaned.substring(lastIndex),
+        style: baseStyle,
+      ));
+    }
+
+    if (spans.isEmpty) {
+      return Text(cleaned, style: baseStyle);
+    }
+
+    return RichText(
+      text: TextSpan(children: spans),
     );
   }
 }

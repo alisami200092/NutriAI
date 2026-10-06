@@ -23,22 +23,80 @@ class _ChatbotPageState extends State<ChatbotPage>
       drawer: const ChatDrawer(),
       appBar: AppBar(
         backgroundColor: Colors.white,
-        elevation: 0,
+        elevation: 0.5,
         centerTitle: true,
-        toolbarHeight: 64,
+        toolbarHeight: 66,
         leading: Builder(
           builder: (context) => IconButton(
             icon: const Icon(Icons.menu, color: Colors.black87),
             onPressed: () => Scaffold.of(context).openDrawer(),
           ),
         ),
-        title: Padding(
-          padding: const EdgeInsets.only(top: 45),
-          child: Image.asset(
-            "assets/images/nutri-bot.png",
-            height: 200,
-            fit: BoxFit.contain,
-          ),
+        title: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset(
+                  "assets/images/n-logo.png",
+                  height: 24,
+                  width: 24,
+                  fit: BoxFit.contain,
+                ),
+                const SizedBox(width: 7),
+                RichText(
+                  text: const TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "NUTRI",
+                        style: TextStyle(
+                          color: Color(0xFF8CC63F),
+                          fontSize: 17,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 1.1,
+                        ),
+                      ),
+                      TextSpan(
+                        text: "AI",
+                        style: TextStyle(
+                          color: Color(0xFFF1AE4C),
+                          fontSize: 17,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 1.1,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 3),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 7,
+                  height: 7,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFF4CAF50),
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                const SizedBox(width: 5),
+                Text(
+                  "Online • Nutrition Coach",
+                  style: TextStyle(
+                    fontSize: 10.5,
+                    color: Colors.grey.shade600,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.2,
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
       body: Column(

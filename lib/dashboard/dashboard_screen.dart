@@ -20,6 +20,7 @@ import 'dashboard_service.dart';
 import 'ai_meal_plan_generator.dart';
 import 'drawer_screen.dart';
 import 'package:nutriapp/services/fat_calculator_service.dart';
+import 'gut_shield_banner.dart';
 
 class NutriAIApp extends StatelessWidget {
   final List<CameraDescription> cameras;
@@ -101,6 +102,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
   late MealItem _currentDinner;
   late MealItem _currentSnack;
   StreamSubscription<DocumentSnapshot>? _profileSubscription;
+
+  // --- GUT SHIELD STATE ---
+  bool _gutShieldActive = false;
+  List<String> _activeGiTriggers = [];
+  String _symptomSummary = "";
 
   @override
   void initState() {
@@ -256,6 +262,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
         final bool savedCuisineMatches = savedCuisine != null &&
             savedCuisine.trim().toLowerCase() == newDietType.trim().toLowerCase();
 
+        // ✅ Read Gut Shield Status and Active Triggers
+        final bool newGutShieldActive = data['gut_shield_active'] == true;
+        final List<String> newGiTriggers = List<String>.from(
+          (data['active_gi_triggers'] as List?)?.map((e) => e.toString()) ?? [],
+        );
+        final String newSymptomSummary = data['symptom_summary'] ?? "";
+        final bool gutShieldChanged = _gutShieldActive != newGutShieldActive ||
+            _activeGiTriggers.join(',') != newGiTriggers.join(',');
+
         setState(() {
           _userName = data['name'] ?? "User";
           _planType = newPlanType;
@@ -267,12 +282,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
           _targetCarbs = targets.carbs;
           _targetProtein = targets.protein;
           _targetFat = targets.fat;
+          _gutShieldActive = newGutShieldActive;
+          _activeGiTriggers = newGiTriggers;
+          _symptomSummary = newSymptomSummary;
           _isLoadingProfile = false;
 
-          // If diet or restrictions changed, or saved plan is from a different cuisine,
-          // automatically regenerate fresh meals for the active cuisine (Pakistani/Indian/etc.)!
+          // If diet, restrictions, or Gut Shield changed, or saved plan is from a different cuisine,
+          // automatically regenerate fresh meals for the active cuisine and safety requirements!
           if (dietChanged ||
               restrictionsChanged ||
+              gutShieldChanged ||
               !savedCuisineMatches ||
               data['generatedMealPlan'] == null) {
             _regenerateFromCSV();
@@ -364,6 +383,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final int lCals = (_calorieBudget * 0.35).toInt();
     final int dCals = (_calorieBudget * 0.30).toInt();
     final int sCals = (_calorieBudget * 0.10).toInt();
+    final List<String> triggers =
+        _gutShieldActive ? _activeGiTriggers : const [];
 
     setState(() {
       _currentBreakfast = AIMealPlanGenerator.getBreakfast(
@@ -374,6 +395,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         currentMeal: _currentBreakfast,
         calorieBudget: bCals,
         forceNew: true,
+        activeGiTriggers: triggers,
       );
       _currentLunch = AIMealPlanGenerator.getLunch(
         cuisine: _userDietType,
@@ -383,6 +405,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         currentMeal: _currentLunch,
         calorieBudget: lCals,
         forceNew: true,
+        activeGiTriggers: triggers,
       );
       _currentDinner = AIMealPlanGenerator.getDinner(
         cuisine: _userDietType,
@@ -392,6 +415,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         currentMeal: _currentDinner,
         calorieBudget: dCals,
         forceNew: true,
+        activeGiTriggers: triggers,
       );
       _currentSnack = AIMealPlanGenerator.getSnack(
         cuisine: _userDietType,
@@ -401,10 +425,49 @@ class _DashboardScreenState extends State<DashboardScreen> {
         currentMeal: _currentSnack,
         calorieBudget: sCals,
         forceNew: true,
+        activeGiTriggers: triggers,
       );
     });
     _saveCurrentMealPlanToFirestore();
     _fetchWeeklyGraphData();
+  }
+
+  // --- DISMISS GUT SHIELD ACTION ---
+  Future<void> _dismissGutShield() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        await FirebaseFirestore.instance
+            .collection('UserProfiles')
+            .doc(user.uid)
+            .set({
+          'gut_shield_active': false,
+          'active_gi_triggers': <String>[],
+          'gut_shield_deactivated_at': FieldValue.serverTimestamp(),
+        }, SetOptions(merge: true));
+
+        if (mounted) {
+          setState(() {
+            _gutShieldActive = false;
+            _activeGiTriggers = [];
+          });
+          _regenerateFromCSV();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Gut Shield Deactivated".tr()),
+              backgroundColor: const Color(0xFF2E7D32),
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      debugPrint("Error dismissing Gut Shield: $e");
+    }
   }
 
   void _goToPreviousDay() {
@@ -1115,6 +1178,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
 
               const SizedBox(height: 16),
+
+              // --- GUT SHIELD BANNER (ACTIVE WHEN SYMPTOMS REPORTED) ---
+              if (_gutShieldActive) ...[
+                GutShieldBanner(
+                  symptomSummary: _symptomSummary,
+                  activeTriggers: _activeGiTriggers,
+                  onDismiss: _dismissGutShield,
+                ),
+                const SizedBox(height: 16),
+              ],
 
               // --- MEAL PLAN HEADER ---
               Column(

@@ -210,7 +210,7 @@ class ChatbotService {
     final snackList = (loggedMeals?['snack'] as List?)?.join(', ') ?? 'None logged yet';
 
     return """
-You are NutriAI, an empathetic, highly knowledgeable, and friendly personal nutrition companion and live wellness coach.
+You are NutriBot, an empathetic, friendly personal nutrition coach and wellness companion.
 
 ### USER BIOMETRIC & GOAL PROFILE:
 - Name: $name
@@ -237,26 +237,32 @@ You are NutriAI, an empathetic, highly knowledgeable, and friendly personal nutr
   • Snacks: $snackList
 
 ### ⚠️ ABSOLUTE ACCURACY RULES FOR CALORIES:
-1. **NEVER SWAP OR CONFUSE EATEN CALORIES WITH REMAINING CALORIES!**
-   - If the user asks: "How much did I eat?", "How many calories have I consumed?", or similar:
-     👉 ANSWER: "You have eaten **$totalEaten kcal** today."
-   - If the user asks: "How many calories do I have remaining / left?", "Can I eat more?", or similar:
-     👉 ANSWER: "You have **$remainingCals kcal remaining** today out of your $totalBudgetCals kcal daily budget."
-   - **CRITICAL**: The user has **EATEN $totalEaten kcal**, and has **$remainingCals kcal REMAINING**. NEVER tell them they have "$totalEaten kcal remaining"! That is what they ate.
+1. NEVER swap or confuse eaten calories with remaining calories!
+   - If the user asks how much they ate: Tell them they have eaten $totalEaten kcal today.
+   - If the user asks how many calories they have remaining/left: Tell them they have $remainingCals kcal left out of their $totalBudgetCals kcal daily budget.
+   - The user has EATEN $totalEaten kcal, and has $remainingCals kcal REMAINING.
 2. If remaining calories is positive ($remainingCals > 0), they still have room to consume $remainingCals kcal.
 
-### COACHING PERSONA & RULES:
-1. **Friendly & Conversational**: Talk like a supportive, knowledgeable friend. Celebrate their consistency, use emojis warmly, and explain the science of food simply. Never sound robotic or judgmental.
-2. **Daily Context Awareness**: You ALWAYS know what they've already eaten today. If they ask what to eat for lunch or dinner, inspect their remaining calories ($remainingCals kcal) and protein balance (${proteinEaten}g so far) and suggest meals from their preference ($dietType) that fit their remaining budget!
-3. **Medical Guardrails & Harmful Food Warnings**:
-   - If the user has health conditions ($conditions), warn them if a food they ask about is dangerous. E.g., for Diabetes: high glycemic carbs/refined sugar cause acute glucose spikes; for Hypertension: high sodium causes fluid retention and blood pressure spikes.
-   - If they want to eat junk food or high-calorie treats, explain the physiological reaction warmly: "That will spike insulin and use most of your remaining $remainingCals kcal. If you crave it, let's have half and add cucumber raita or salad to slow digestion!"
-4. **App Interaction via Tools (EXECUTE WHENEVER REQUESTED)**:
-   - When the user mentions having eaten something, call `log_meal`. If the food isn't in a database, provide estimated calories and macros so it still logs!
-   - When the user logs water (e.g. "I drank 2 glasses of water"), call `log_water`.
-   - When the user wants to adjust their dashboard meal plan (e.g. "Change my lunch to Chicken Karahi"), call `update_meal_plan`.
+### 💬 STRICT CONVERSATIONAL VOICE & FORMATTING RULES:
+1. **Talk Like a Human, Not a Bot**:
+   - Speak in a natural, caring, human conversational voice, like an expert nutrition coach texting with a friend.
+   - DO NOT use triple asterisks (***) or annoying markdown symbols. Avoid asterisk clutter.
+   - DO NOT format responses like a robotic AI report with rigid headers (avoid headers like 'Meal Recommendation Breakdown:', 'Key Observations:', 'Nutritional Summary:').
+   - When listing meals, options, or tips, use clean bullet points (•) or a numbered format like 1), 2), 3) instead of dashes or raw asterisks.
+   - Keep answers conversational in natural, pleasant paragraphs with warm emojis.
+2. **Context-Aware Suggestions**:
+   - You always know what they ate today. If they ask what to eat for lunch or dinner, look at their remaining calories ($remainingCals kcal) and protein (${proteinEaten}g so far), and warmly recommend specific meals from their preferred cuisine ($dietType) that fit their remaining budget.
+3. **Medical Guardrails**:
+   - If the user has health conditions ($conditions), warn them warmly if a food they ask about can cause issues (e.g. sugar spikes in diabetes, sodium in hypertension).
+   - Never diagnose diseases or prescribe medication. If red-flag symptoms are reported, advise seeing a doctor.
+4. **App Tools Execution**:
+   - When the user mentions eating something, call `log_meal`.
+   - When the user logs water, call `log_water`.
+   - When the user wants to adjust their dashboard meal plan, call `update_meal_plan`.
    - When the user wants to update their weight target or calorie goal, call `update_user_goals`.
-   - When the user asks for their progress or full breakdown, call `get_daily_summary`.
+   - When the user asks for their full daily summary, call `get_daily_summary`.
+   - When the user mentions digestive discomfort, reflux, bloating, cramps, nausea, or upset stomach, IMMEDIATELY call `report_gi_symptoms` with active triggers (spicy, acidic, dairy, high_fodmap, deep_fried, caffeine, carbonated, artificial_sweeteners, gluten).
+   - When the user feels better, call `deactivate_gut_shield`.
 """;
   }
 
@@ -454,6 +460,67 @@ You are NutriAI, an empathetic, highly knowledgeable, and friendly personal nutr
             },
           },
         },
+        // 6. Report GI Symptoms (Gut Shield Activation)
+        {
+          "type": "function",
+          "function": {
+            "name": "report_gi_symptoms",
+            "description":
+                "Triggered when user mentions digestive distress (bloating, reflux, nausea, cramping, burning stomach, upset stomach, diarrhea).",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "active_gi_triggers": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "spicy",
+                      "acidic",
+                      "dairy",
+                      "high_fodmap",
+                      "deep_fried",
+                      "caffeine",
+                      "carbonated",
+                      "artificial_sweeteners",
+                      "gluten"
+                    ],
+                  },
+                  "description":
+                      "List of digestive trigger categories to exclude from upcoming meals.",
+                },
+                "symptom_summary": {
+                  "type": "string",
+                  "description":
+                      "Brief summary of user's symptoms (e.g. 'acid reflux and heartburn', 'severe bloating').",
+                },
+                "is_flare_up": {
+                  "type": "boolean",
+                  "description":
+                      "Set to true when the user is experiencing an active symptom flare-up.",
+                },
+              },
+              "required": [
+                "active_gi_triggers",
+                "symptom_summary",
+                "is_flare_up"
+              ],
+            },
+          },
+        },
+        // 7. Deactivate Gut Shield
+        {
+          "type": "function",
+          "function": {
+            "name": "deactivate_gut_shield",
+            "description":
+                "Triggered when the user reports that their stomach feels better, symptoms are resolved, or they want to turn off the Gut Shield.",
+            "parameters": {
+              "type": "object",
+              "properties": {},
+            },
+          },
+        },
       ];
 
       final response = await http.post(
@@ -494,6 +561,112 @@ You are NutriAI, an empathetic, highly knowledgeable, and friendly personal nutr
     } catch (e) {
       _serviceLogger.e("Exception in fetchGptTurboReply: $e");
       return "Something went wrong: $e";
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // STEP 3: GENERATE CLINICAL DOCTOR SUMMARY REPORT
+  // ---------------------------------------------------------------------------
+  static Future<String> generateDoctorSummaryReport({
+    required Map<String, dynamic>? profile,
+    required Map<String, dynamic>? giData,
+    required List<Map<String, dynamic>> recentMeals,
+  }) async {
+    try {
+      await ensureEnvLoaded();
+      final apiKey = dotenv.env['OPENAI_API_KEY'];
+
+      if (apiKey == null || apiKey.isEmpty) {
+        return "Error: OpenAI API Key is missing in assets/api-key.env.";
+      }
+
+      final name = profile?['name'] ?? 'Patient';
+      final age = profile?['age'] ?? 'N/A';
+      final gender = profile?['gender'] ?? 'N/A';
+      final conditions = profile?['healthConditions'] ?? 'None reported';
+      final dietType =
+          profile?['dietPreference'] ?? profile?['dietType'] ?? 'Standard';
+
+      final symptomSummary =
+          giData?['symptom_summary'] ?? 'Occasional digestive discomfort';
+      final activeTriggers =
+          (giData?['active_gi_triggers'] as List?)?.join(', ') ?? 'None';
+      final lastIncident = giData?['last_gi_incident'] != null
+          ? giData!['last_gi_incident'].toString()
+          : 'Recent';
+
+      final mealsBuffer = StringBuffer();
+      if (recentMeals.isEmpty) {
+        mealsBuffer.writeln("No specific meals logged in the recent window.");
+      } else {
+        for (final m in recentMeals) {
+          mealsBuffer.writeln(
+            "- [${m['category'] ?? 'Meal'}] ${m['name'] ?? 'Food Item'} (${m['calories'] ?? 0} kcal)",
+          );
+        }
+      }
+
+      final prompt = """
+You are an expert Clinical Medical Scribe and Dietetic Assistant preparing a structured, objective, and professional "Patient Dietary & GI Symptom Summary" consultation note for a licensed Medical Doctor / Gastroenterologist.
+
+PATIENT RECORD:
+- Name: $name
+- Age: $age | Biological Sex: $gender
+- Baseline Dietary Pattern: $dietType
+- Known Baseline Conditions: $conditions
+- Active Symptom Flare-Up: $symptomSummary
+- Identified Trigger Categories: $activeTriggers
+- Incident Timestamp/Window: $lastIncident
+
+RECENT FOOD INTAKE LOG (Preceding Flare-Up):
+$mealsBuffer
+
+INSTRUCTIONS:
+1. Format as an official medical EHR consultation note for a physician with clear capitalized section headers (DO NOT use '#' hashtags, and DO NOT use raw bullet asterisks '***' or '- **'):
+   [CHIEF COMPLAINT & SYMPTOM TIMELINE]
+   [PATIENT DEMOGRAPHICS & CLINICAL CONTEXT]
+   [NUTRITIONAL RECALL & GI TRIGGER CORRELATION]
+   [CONSIDERATIONS FOR THE PHYSICIAN]
+2. Under each section, write concise, professional clinical sentences or clean bullet points (•) describing the patient's data, logged meals, and potential food triggers (acidic, spicy, dairy, high FODMAP, etc.).
+3. Maintain an objective, professional, and clinical scribe tone (avoid casual conversational chatter or emojis).
+4. Do NOT invent fake vitals or lab results. Stick strictly to the patient's data.
+5. End with a short standard observational disclaimer.
+""";
+
+      final response = await http.post(
+        Uri.parse("https://api.openai.com/v1/chat/completions"),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $apiKey",
+        },
+        body: jsonEncode({
+          "model": "gpt-4o-mini",
+          "messages": [
+            {
+              "role": "system",
+              "content":
+                  "You are a professional clinical scribe formatting patient dietary intake and digestive symptoms for a medical doctor.",
+            },
+            {
+              "role": "user",
+              "content": prompt,
+            },
+          ],
+          "max_tokens": 800,
+          "temperature": 0.3,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(utf8.decode(response.bodyBytes));
+        return data["choices"][0]["message"]["content"] ??
+            "No report generated.";
+      } else {
+        return "Error from report service: HTTP ${response.statusCode}";
+      }
+    } catch (e) {
+      _serviceLogger.e("Doctor summary generation failed: $e");
+      return "Unable to generate doctor report at this time: $e";
     }
   }
 }

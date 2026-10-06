@@ -314,6 +314,27 @@ mixin ChatbotLogic on State<ChatbotPage> {
           String result = await _performDailySummaryFetch();
           logResults.add(result);
         }
+        // --- Tool 6: report_gi_symptoms (Gut Shield Activation) ---
+        else if (functionName == "report_gi_symptoms") {
+          final rawTriggers = (args["active_gi_triggers"] as List?)
+                  ?.map((e) => e.toString().toLowerCase().trim())
+                  .toList() ??
+              [];
+          final summary =
+              args["symptom_summary"] as String? ?? "digestive discomfort";
+          final isFlareUp = args["is_flare_up"] == true;
+          String result = await _performReportGiSymptoms(
+            triggers: rawTriggers,
+            symptomSummary: summary,
+            isFlareUp: isFlareUp,
+          );
+          logResults.add(result);
+        }
+        // --- Tool 7: deactivate_gut_shield ---
+        else if (functionName == "deactivate_gut_shield") {
+          String result = await _performDeactivateGutShield();
+          logResults.add(result);
+        }
       }
 
       final assistantMsg = response["assistantMessage"] as String?;
@@ -361,7 +382,7 @@ mixin ChatbotLogic on State<ChatbotPage> {
             "generatedMealPlan": {mealType: foodName},
           }, SetOptions(merge: true));
 
-      return "✅ I've updated your **$mealType** to **$foodName** on your dashboard.";
+      return "I have updated your $mealType to $foodName on your dashboard.";
     } catch (e) {
       logger.e("Meal Plan Update Error: $e");
       return "I tried to update your plan, but an error occurred: $e";
@@ -383,7 +404,7 @@ mixin ChatbotLogic on State<ChatbotPage> {
       });
 
       final ml = (numGlasses * 250).round();
-      return "💧 Logged **$numGlasses glass${numGlasses == 1.0 ? '' : 'es'}** (~$ml ml) to your daily water tracker! Keep staying hydrated.";
+      return "Logged $numGlasses glass${numGlasses == 1.0 ? '' : 'es'} (~$ml ml) to your daily water tracker! Great job staying hydrated.";
     } catch (e) {
       logger.e("Water Logging Error: $e");
       return "Error logging water: $e";
@@ -414,11 +435,11 @@ mixin ChatbotLogic on State<ChatbotPage> {
       await _loadProfile();
 
       List<String> changes = [];
-      if (targetWeightKg != null) changes.add("• Target Weight: **${targetWeightKg}kg**");
-      if (dailyCalorieTarget != null) changes.add("• Daily Calorie Goal: **$dailyCalorieTarget kcal**");
-      if (dietPreference != null) changes.add("• Diet Style: **$dietPreference**");
+      if (targetWeightKg != null) changes.add("• Target Weight: ${targetWeightKg}kg");
+      if (dailyCalorieTarget != null) changes.add("• Daily Calorie Goal: $dailyCalorieTarget kcal");
+      if (dietPreference != null) changes.add("• Diet Style: $dietPreference");
 
-      return "🎯 Goal updated successfully!\n${changes.join('\n')}";
+      return "Goal updated successfully!\n${changes.join('\n')}";
     } catch (e) {
       logger.e("Goal Update Error: $e");
       return "Error updating goals: $e";
@@ -445,17 +466,72 @@ mixin ChatbotLogic on State<ChatbotPage> {
       final int remaining = totalBudget - totalCals;
 
       return """
-📊 **Today's Nutrition Breakdown**:
-• **Calories Eaten**: $totalCals kcal
-• **Daily Calorie Budget**: $totalBudget kcal${burnedCals > 0 ? ' (Includes $burnedCals kcal from exercise)' : ''}
-• **Calories Remaining**: ${remaining >= 0 ? '$remaining kcal left to eat' : '${remaining.abs()} kcal over budget'}
-• **Protein**: ${protein}g
-• **Carbohydrates**: ${carbs}g
-• **Fats**: ${fat}g
-• **Water Intake**: $waterGlasses glasses (~$waterMl ml)
+Here is your nutrition summary for today:
+• Eaten so far: $totalCals kcal
+• Daily calorie budget: $totalBudget kcal${burnedCals > 0 ? ' (including $burnedCals kcal from exercise)' : ''}
+• Remaining budget: ${remaining >= 0 ? '$remaining kcal left to eat' : '${remaining.abs()} kcal over budget'}
+• Protein: ${protein}g | Carbs: ${carbs}g | Fat: ${fat}g
+• Water: $waterGlasses glasses (~$waterMl ml)
 """;
     } catch (e) {
       return "Unable to fetch today's summary right now: $e";
+    }
+  }
+
+  // --- Tool 6 Helper: Report GI Symptoms (Gut Shield) ---
+  Future<String> _performReportGiSymptoms({
+    required List<String> triggers,
+    required String symptomSummary,
+    required bool isFlareUp,
+  }) async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        return "Please log in so I can update your Gut Shield profile.";
+      }
+
+      await FirebaseFirestore.instance
+          .collection('UserProfiles')
+          .doc(user.uid)
+          .set({
+        'gut_shield_active': true,
+        'active_gi_triggers': triggers,
+        'symptom_summary': symptomSummary,
+        'last_gi_incident': FieldValue.serverTimestamp(),
+      }, SetOptions(merge: true));
+
+      final triggerLabels = triggers
+          .map((t) => t.replaceAll('_', ' '))
+          .join(', ');
+
+      return "Gut Shield Activated: I have adjusted your meals to avoid $triggerLabels to help ease your $symptomSummary. You can check the dashboard for gut-safe recommendations.";
+    } catch (e) {
+      logger.e("Error reporting GI symptoms: $e");
+      return "Unable to activate Gut Shield at this time.";
+    }
+  }
+
+  // --- Tool 7 Helper: Deactivate Gut Shield ---
+  Future<String> _performDeactivateGutShield() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        return "Please log in so I can update your Gut Shield profile.";
+      }
+
+      await FirebaseFirestore.instance
+          .collection('UserProfiles')
+          .doc(user.uid)
+          .set({
+        'gut_shield_active': false,
+        'active_gi_triggers': <String>[],
+        'gut_shield_deactivated_at': FieldValue.serverTimestamp(),
+      }, SetOptions(merge: true));
+
+      return "Gut Shield Deactivated: Your standard meal plan preferences have been restored.";
+    } catch (e) {
+      logger.e("Error deactivating Gut Shield: $e");
+      return "Unable to deactivate Gut Shield at this time.";
     }
   }
 
@@ -544,7 +620,7 @@ mixin ChatbotLogic on State<ChatbotPage> {
           .collection(catLower)
           .add(customLog);
 
-      return "✅ Logged **$formattedQuery** (~$cals kcal | ${p.round()}g Protein | ${c.round()}g Carbs | ${f.round()}g Fat) to your **$category** diary!";
+      return "Logged $formattedQuery (~$cals kcal, ${p.round()}g protein, ${c.round()}g carbs, ${f.round()}g fat) to your $category diary!";
     } catch (e) {
       logger.e("DB Logging Error: $e");
       return "I encountered a logging error: $e";
@@ -629,7 +705,7 @@ mixin ChatbotLogic on State<ChatbotPage> {
         .collection(catLower)
         .add(logData);
 
-    return "Successfully logged **${foodData['name']}** ($estCalories kcal) to your **$category**.";
+    return "Successfully logged ${foodData['name']} ($estCalories kcal) to your $category.";
   }
 
   Future<void> _showBotTypingThenReply(String reply) async {

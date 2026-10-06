@@ -128,12 +128,9 @@ class ChatProvider extends ChangeNotifier {
       }
 
       final String greeting =
-          "Hello $name! 👋\n\n"
-          "I have retrieved your profile data. 📊\n"
-          "• **Goal:** $goal\n"
-          "• **Diet:** $dietType$restrictions\n"
-          "• **Target:** $calories kcal/day\n\n"
-          "I'm ready to help you stay on track! What shall we do first?";
+          "Hi $name! 👋 It is great to see you today.\n\n"
+          "I have your profile ready: working towards $goal on a $dietType plan$restrictions with a target of $calories kcal per day.\n\n"
+          "How can I help you today? You can ask what to eat, log a meal or water, or tell me how your stomach is feeling!";
 
       await messagesRef.add({
         'sender': 'bot',
