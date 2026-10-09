@@ -1,0 +1,113 @@
+Meal_Name,Category,Calories,Carbs,Protein,Fats,GI_Triggers
+"Shakshuka with Poached Eggs, Feta Cheese & Warm Whole Wheat Pita",Breakfast,420,44.0,22.0,18.0,dairy;acidic
+"Greek Yogurt Bowl with Walnuts, Honey & Fresh Blueberries",Breakfast,350,32.0,21.0,16.0,dairy
+Spanish Pan con Tomate with Jamon Serrano & Extra Virgin Olive Oil,Breakfast,370,38.0,18.0,16.0,acidic
+Avocado & Poached Egg on Artisanal Sourdough with Dukkah & EVOO,Breakfast,380,34.0,15.0,21.0,safe
+"Mediterranean Scramble with Baby Spinach, Sun-Dried Tomatoes & Feta",Breakfast,340,12.0,22.0,23.0,dairy;acidic
+"Steel Cut Oatmeal with Sliced Figs, Chia Seeds & Crushed Almonds",Breakfast,360,52.0,11.0,13.0,safe
+Smoked Salmon & Herbed Ricotta on Toasted Spelt Bread,Breakfast,340,30.0,24.0,14.0,dairy
+Turkish Menemen (Soft Scrambled Eggs with Tomatoes & Green Peppers),Breakfast,320,14.0,17.0,22.0,acidic
+"Italian Frittata with Artichoke Hearts, Zucchini & Grated Parmesan",Breakfast,330,10.0,21.0,22.0,dairy
+Warm Spiced Chickpeas (Lablabi) with Soft Poached Egg & Olive Oil,Breakfast,360,42.0,19.0,14.0,high_fodmap
+"Whole Grain Toast with Mashed Avocado, Sliced Tomatoes & Za'atar",Breakfast,290,32.0,7.5,16.0,acidic
+French Soft Boiled Eggs with Whole Grain Soldiers & Olive Tapenade,Breakfast,310,26.0,16.0,16.0,safe
+"Greek Yogurt with Roasted Pears, Ceylon Cinnamon & Pistachios",Breakfast,330,36.0,18.0,14.0,dairy
+Grilled Halloumi & Roasted Cherry Tomatoes on Sourdough Bread,Breakfast,390,32.0,19.0,22.0,dairy;acidic
+Spinach & Feta Phyllo Pastry (Spanakopita Breakfast Slice),Breakfast,350,28.0,12.0,21.0,dairy
+"Mediterranean Breakfast Grain Bowl with Farro, Soft Egg & Basil Pesto",Breakfast,420,46.0,19.0,19.0,dairy
+"Smoked Mackerel Fillet with Boiled Baby Potatoes, Chives & EVOO",Breakfast,410,28.0,26.0,22.0,safe
+Fresh Ricotta & Wild Honey on Toasted Walnut Bread with Figs,Breakfast,360,42.0,14.0,16.0,dairy
+Egg White & Baby Kale Omelette with Herbs & Crumbled Goat Cheese,Breakfast,250,6.0,24.0,14.0,dairy
+"Citrus & Berry Fruit Bowl with Fresh Mint, Greek Yogurt & Pomegranate",Breakfast,260,38.0,14.0,6.0,dairy;acidic
+"Warm Rolled Oatmeal with Stewed Apples, Cinnamon & Olive Oil Drizzle",Breakfast,280,46.0,8.0,8.0,bland
+Soft Poached Eggs with Steamed Zucchini on Plain Sourdough Bread,Breakfast,290,32.0,16.0,11.0,bland
+Greek Rice Pudding (Rizogalo - Low Sugar with Ground Cinnamon),Breakfast,270,44.0,9.0,6.5,bland;dairy
+Steamed Sweet Potato with Light Ricotta Cheese & Sea Salt,Breakfast,240,38.0,9.5,5.5,bland;dairy
+Boiled Eggs with Steamed Baby Spinach & Mild Olive Oil,Breakfast,250,4.0,18.0,18.0,bland
+"Full Mediterranean Feast: Shakshuka, Fried Halloumi, Olives & 2 Pitas",Breakfast,860,86.0,38.0,42.0,dairy;acidic
+Smoked Salmon Sourdough Benedict with 2 Eggs & Hollandaise Sauce,Breakfast,780,54.0,38.0,46.0,dairy
+Tortilla Espanola (Spanish Potato & Onion Frittata) with Chorizo,Breakfast,720,58.0,29.0,42.0,dairy
+"Greek Yogurt Parfait Bowl with Double Granola, Tahini, Honey & Figs",Breakfast,740,88.0,28.0,32.0,dairy
+Baked Brioche French Toast with Honey Mascarpone & Roasted Walnuts,Breakfast,760,82.0,22.0,39.0,dairy
+"Greek Salad with Romaine, Cucumbers, Kalamata Olives & Feta",Lunch,420,16.0,14.0,34.0,dairy
+"Grilled Chicken Souvlaki Pita with Tzatziki, Tomato & Red Onion",Lunch,490,44.0,38.0,18.0,dairy;acidic
+"Mediterranean Quinoa Bowl with Hummus, Cucumbers & Herb Vinaigrette",Lunch,450,56.0,17.0,19.0,safe
+"Pan-Seared Salmon Salad with Wild Arugula, Shaved Fennel & Lemon EVOO",Lunch,480,12.0,38.0,32.0,acidic
+"Falafel Mezze Plate with Creamy Hummus, Tabbouleh & Whole Wheat Pita",Lunch,490,62.0,18.0,21.0,high_fodmap
+"Tuna Nicoise Salad with Haricots Verts, Baby Potatoes, Egg & Olives",Lunch,460,28.0,36.0,24.0,safe
+Lemon Herb Grilled Chicken Breast with Tabbouleh & Roasted Peppers,Lunch,440,36.0,42.0,14.0,acidic
+"Caprese Panini on Focaccia with Buffalo Mozzarella, Tomato & Pesto",Lunch,510,48.0,22.0,26.0,dairy;acidic
+Tuscan White Bean & Lacinato Kale Soup with Garlic Crusty Bread,Lunch,420,58.0,21.0,12.0,safe
+Chilled Spanish Gazpacho with Hard-Boiled Egg & Cucumber Herb Salad,Lunch,340,28.0,15.0,19.0,acidic
+Lebanese Shish Tawook Skewers with Garlic Toum & Fattoush Salad,Lunch,520,42.0,44.0,21.0,acidic
+"Warm French Puy Lentil Salad with Roasted Beets, Walnuts & Goat Cheese",Lunch,430,46.0,22.0,19.0,dairy;high_fodmap
+Moroccan Spiced Chicken Tagine with Steamed Couscous & Apricots,Lunch,510,54.0,38.0,17.0,safe
+"Turkey & Avocado Wrap with Hummus, Baby Spinach & Sun-Dried Tomatoes",Lunch,460,42.0,32.0,20.0,safe
+"Grilled Calamari with Lemon, Oregano & Warm White Bean Salad",Lunch,410,32.0,36.0,15.0,acidic
+"Farro Bowl with Roasted Butternut Squash, Cranberries & Feta",Lunch,440,64.0,15.0,16.0,dairy
+Grilled Swordfish Pita Pocket with Herb Tahini & Pickled Red Cabbage,Lunch,480,44.0,38.0,17.0,acidic
+Italian Prosciutto di Parma & Melon Salad with Fresh Mozzarella,Lunch,410,28.0,24.0,22.0,dairy
+Provençal Roasted Vegetable Tart with Herbed Goat Cheese & Green Salad,Lunch,460,44.0,16.0,25.0,dairy
+Grilled Halloumi Burger on Brioche with Roasted Pepper Relish,Lunch,520,46.0,22.0,28.0,dairy;acidic
+Poached Chicken Breast with Steamed Quinoa & Zucchini in Olive Oil,Lunch,370,38.0,36.0,10.0,bland
+Steamed Cod Fillet with Boiled Potatoes & Carrot Puree in EVOO,Lunch,360,42.0,32.0,8.0,bland
+"Creamy Tuscan White Bean Soup (Low Garlic, Mild Herb Broth)",Lunch,340,48.0,18.0,8.5,bland
+Baked Sea Bass with Steamed Basmati Rice & Peeled Zucchini Ribbons,Lunch,380,46.0,34.0,7.5,bland
+Tender Turkey Breast with Mashed Sweet Potato & Sea Salt in EVOO,Lunch,350,44.0,32.0,6.5,bland
+"Seafood Paella with Jumbo Prawns, Mussels, Calamari & Saffron Rice",Lunch,980,112.0,58.0,36.0,safe
+"Roasted Lamb Gyro Platter with Tzatziki, Crispy Potatoes & 2 Pitas",Lunch,1040,98.0,54.0,51.0,dairy;acidic
+"Sicilian Baked Lasagna with Ricotta, Beef Bolognese & Parmesan",Lunch,960,84.0,52.0,48.0,dairy;acidic
+Chicken Parmigiana with Spaghetti Pomodoro & Garlic Herb Focaccia,Lunch,1020,106.0,56.0,42.0,dairy;acidic
+Grilled Prime Ribeye Steak with Roasted Rosemary Potatoes & Herb Butter,Lunch,1060,64.0,68.0,62.0,dairy
+Baked Greek Lemon Herb Sea Bass (Lavraki) with Roasted Potatoes,Dinner,480,38.0,42.0,18.0,acidic
+"Moroccan Lamb Tagine with Prunes, Toasted Almonds & Couscous",Dinner,580,52.0,42.0,24.0,safe
+"Sicilian Grilled Swordfish with Capers, Tomatoes, Olives & Polenta",Dinner,490,36.0,41.0,21.0,acidic
+"Herb-Roasted Chicken Thighs with Kalamata Olives, Lemons & Orzo",Dinner,520,42.0,44.0,22.0,acidic
+"Valencian Seafood Paella with Saffron Rice, Calamari & Tiger Shrimp",Dinner,560,64.0,38.0,17.0,safe
+"Traditional Baked Moussaka with Layered Eggplant, Spiced Beef & Bechamel",Dinner,580,38.0,34.0,32.0,dairy
+"Grilled Salmon Fillet with Lemon Dill Sauce, Wild Rice & Broccolini",Dinner,510,36.0,43.0,23.0,dairy;acidic
+"Italian Cioppino Seafood Stew with Cod, Shrimp, Mussels & Sourdough",Dinner,460,34.0,42.0,16.0,acidic
+Rosemary Garlic Lamb Chops with Roasted Summer Ratatouille,Dinner,540,24.0,44.0,31.0,safe
+"Baked Cod Fillet alla Livornese with Tomatoes, Capers & Black Olives",Dinner,430,26.0,38.0,19.0,acidic
+Braised Osso Buco with Saffron Risotto alla Milanese & Gremolata,Dinner,620,46.0,48.0,28.0,dairy
+"Stuffed Bell Peppers with Ground Turkey, Brown Rice, Herbs & Feta",Dinner,440,42.0,34.0,16.0,dairy;acidic
+Whole Grilled Branzino with Wild Steamed Greens (Horta) & Lemon EVOO,Dinner,460,14.0,46.0,25.0,acidic
+Chicken Piccata in Lemon White Wine Caper Sauce with Whole Wheat Pasta,Dinner,490,48.0,42.0,15.0,acidic
+"Provençal Vegetable Tian (Zucchini, Tomato, Eggplant) with Goat Cheese",Dinner,380,32.0,16.0,22.0,dairy;acidic
+Pan-Seared Sea Scallops with Creamy Pea Puree & Crispy Pancetta,Dinner,420,24.0,32.0,22.0,safe
+Roasted Pork Tenderloin with Fig Balsamic Glaze & Creamy Polenta,Dinner,490,44.0,41.0,17.0,dairy
+Wild Mushroom & Black Truffle Risotto with Grated Aged Parmesan,Dinner,460,62.0,14.0,18.0,dairy
+Grilled Jumbo Tiger Prawns with Herb Garlic Butter & Couscous,Dinner,470,42.0,38.0,17.0,dairy
+Turkish Adana Spiced Minced Lamb Kebab with Bulgur Pilaf & Sumac Salad,Dinner,560,46.0,39.0,25.0,spicy
+Poached Sea Bass Fillet with Steamed Potatoes & Olive Oil Drizzle,Dinner,360,36.0,34.0,10.0,bland
+Gentle Slow-Cooked Chicken Breast in Vegetable Broth with White Rice,Dinner,370,42.0,36.0,6.5,bland
+Baked Whitefish Fillet with Pureed Butternut Squash (No Garlic),Dinner,340,38.0,32.0,7.0,bland
+Steamed Turkey Medallions with Soft Polenta & Sea Salt in EVOO,Dinner,350,38.0,34.0,7.5,bland
+"Herb-Infused Light Lentil Soup (Strained, Mild, Easy Digestion)",Dinner,320,44.0,18.0,7.0,bland
+"Royal Moroccan Feast: Roasted Lamb Shoulder, Couscous & Pastilla",Dinner,1080,102.0,62.0,51.0,safe
+"Grand Mediterranean Seafood Feast: Lobster Tail, Prawns & Saffron Rice",Dinner,1020,94.0,66.0,44.0,dairy
+Braised Veal Shank with Creamy Mushroom Risotto & Garlic Focaccia,Dinner,1060,92.0,64.0,52.0,dairy
+Tuscan Bistecca alla Fiorentina (T-Bone) with Roasted Potatoes & EVOO,Dinner,1090,58.0,74.0,66.0,safe
+"Mediterranean Mixed Grill: Lamb Chops, Chicken Souvlaki & Orzo Pilaf",Dinner,1040,84.0,72.0,48.0,dairy
+Classic Hummus with Whole Wheat Pita Triangles & Olive Oil (60g),Snack,220,26.0,7.5,10.0,high_fodmap
+Handful of Roasted Raw Almonds & Walnuts (35g trail mix),Snack,210,6.5,6.5,19.0,safe
+Marinated Greek Kalamata Olives & Feta Cheese Cubes (50g),Snack,180,4.0,5.5,16.0,dairy
+Tzatziki Dip with Sliced Cucumbers & Baby Carrots,Snack,140,12.0,7.0,6.5,dairy
+Roasted Red Pepper Muhammara Dip with Pita Crisps,Snack,210,22.0,5.0,12.0,safe
+Fresh Sliced Figs with Goat Cheese & Honey Drizzle (3 pcs),Snack,170,24.0,5.0,6.5,dairy
+"Caprese Skewers with Cherry Tomatoes, Baby Mozzarella & Basil",Snack,160,4.5,9.0,12.0,dairy;acidic
+Spanish Roasted Salted Marcona Almonds (35g),Snack,220,6.0,7.0,20.0,safe
+Sliced Cantaloupe Melon with Prosciutto di Parma (2 slices),Snack,160,16.0,11.0,5.5,safe
+Roasted Crispy Spiced Chickpeas (Garbanzo Snacks - 50g),Snack,190,28.0,8.0,5.5,high_fodmap
+Fresh Pomegranate Arils & Clementine Oranges Bowl,Snack,130,31.0,2.0,0.5,acidic
+Baked Eggplant Baba Ganoush with Toasted Pita Chips,Snack,180,24.0,4.5,8.0,safe
+Greek Yogurt with Dried Apricots & Crushed Pistachios,Snack,210,26.0,12.0,7.0,dairy
+Sardines in Olive Oil on Whole Grain Crackers with Lemon,Snack,220,14.0,16.0,12.0,acidic
+Dolmas (Stuffed Grape Leaves with Herbed Rice & EVOO - 3 pcs),Snack,170,22.0,3.5,8.0,safe
+Ripe Cantaloupe Melon Cubes with Fresh Mint,Snack,90,22.0,1.8,0.4,bland
+"Plain Greek Yogurt (Low Acid, Mild) with Stewed Pear",Snack,150,21.0,11.0,2.5,bland;dairy
+Crisp Sourdough Toast with Light Ricotta & Pinch of Salt,Snack,140,18.0,7.0,4.5,bland;dairy
+Steamed Peeled Apple Slices with Light Ceylon Cinnamon,Snack,95,24.0,0.5,0.3,bland
+"Traditional Greek Baklava with Honey, Pistachios & Walnuts (2 pcs)",Snack,440,52.0,7.0,24.0,dairy
+Spanish Churros (2 pcs) with Dark Chocolate Dipping Sauce,Snack,410,48.0,6.0,22.0,dairy;deep_fried
+"Mediterranean Charcuterie Board with Salami, Manchego & Dried Figs",Snack,450,22.0,24.0,31.0,dairy

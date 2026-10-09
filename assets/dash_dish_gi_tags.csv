@@ -1,0 +1,113 @@
+Meal_Name,Category,Calories,Carbs,Protein,Fats,GI_Triggers
+"Steel-Cut Oatmeal with Sliced Banana, Walnuts & Cinnamon in Skim Milk",Breakfast,360,58.0,14.0,9.0,safe
+"Overnight Oats with Chia Seeds, Blueberries & Low-Fat Greek Yogurt",Breakfast,330,48.0,18.0,7.0,dairy
+Whole Grain English Muffin with Mashed Avocado & Sliced Tomatoes,Breakfast,280,36.0,8.0,12.0,acidic
+Scrambled Egg Whites with Baby Spinach & Mushrooms in Olive Oil,Breakfast,240,6.0,22.0,14.0,safe
+Quinoa Breakfast Porridge with Stewed Peaches & Crushed Almonds,Breakfast,340,52.0,11.0,10.0,safe
+Non-Fat Greek Yogurt Parfait with Pomegranate Arils & Flaxseeds,Breakfast,290,34.0,22.0,6.0,dairy
+Two Boiled Eggs with Whole Wheat Toast & Fresh Orange Slices,Breakfast,310,28.0,18.0,12.0,acidic
+Buckwheat Pancakes with Fresh Strawberries & Unsweetened Almond Milk,Breakfast,340,56.0,10.0,8.0,safe
+Low-Sodium Cottage Cheese Bowl with Pineapple Chunks & Pumpkin Seeds,Breakfast,270,24.0,26.0,6.5,dairy;acidic
+"Vegetable Tofu Scramble with Bell Peppers, Onions & Turmeric",Breakfast,250,14.0,20.0,13.0,safe
+Avocado & Soft-Boiled Egg on Sprouted Grain Ezekiel Toast,Breakfast,320,28.0,15.0,16.0,safe
+Baked Apple Cinnamon Oatmeal Cup with Low-Fat Milk,Breakfast,310,50.0,10.0,8.0,dairy
+"Spinach, Tomato & Egg White Frittata (Low-Salt Baked)",Breakfast,260,8.0,24.0,14.0,acidic
+Whole Grain Waffles with Warm Berry Compote (Zero Added Sugar),Breakfast,330,54.0,9.0,8.5,safe
+Warm Barley Porridge with Dried Apricots & Chopped Pecans,Breakfast,350,58.0,9.5,10.0,safe
+"Green Potassium Power Smoothie: Spinach, Banana, Kiwi & Almond Milk",Breakfast,240,44.0,6.0,4.5,acidic
+Smoked Salmon & Herbed Low-Fat Ricotta on Whole Grain Crispbread,Breakfast,290,22.0,24.0,11.0,dairy
+"Toasted Muesli with Soy Milk, Sliced Bosc Pear & Sunflower Seeds",Breakfast,360,54.0,15.0,10.0,safe
+Mediterranean Herb Omelette with Asparagus & Low-Sodium Swiss Cheese,Breakfast,320,6.0,25.0,22.0,dairy
+Fresh Papaya & Mango Fruit Bowl with Low-Fat Kefir Drink,Breakfast,260,42.0,11.0,4.0,dairy
+Warm Rolled Oatmeal with Peeled Stewed Apples & Ceylon Cinnamon,Breakfast,270,48.0,7.0,6.0,bland
+Soft Poached Eggs with Steamed Zucchini on Whole Wheat Toast,Breakfast,260,26.0,16.0,9.0,bland
+Steamed Sweet Potato Mash with Low-Fat Milk & Ground Nutmeg,Breakfast,230,42.0,7.0,3.5,bland;dairy
+Warm Cream of Rice Porridge with Sliced Ripe Bananas,Breakfast,240,52.0,4.5,1.5,bland
+Boiled Egg Whites (3 pcs) with Steamed Carrots & Olive Oil Drizzle,Breakfast,190,12.0,14.0,9.0,bland
+"Double Steel-Cut Oats Bowl with Peanut Butter, Banana & Milk",Breakfast,680,88.0,26.0,26.0,dairy
+Hearty Avocado Toast (2 Slices) with 2 Poached Eggs & Roasted Seeds,Breakfast,640,56.0,28.0,34.0,safe
+"High-Protein Breakfast Burrito with Black Beans, Egg Whites & Avocado",Breakfast,610,64.0,38.0,22.0,high_fodmap
+"Triple Stack Buckwheat Pancakes with Greek Yogurt, Almonds & Berries",Breakfast,660,92.0,26.0,20.0,dairy
+"Acai Potassium Smoothie Bowl with Granola, Pumpkin Seeds & Chia",Breakfast,620,84.0,22.0,22.0,safe
+Citrus Herb Grilled Chicken Breast with Quinoa & Steamed Broccoli,Lunch,440,42.0,44.0,10.0,acidic
+Mediterranean Chickpea & Cucumber Salad with Lemon Herb Dressing,Lunch,380,48.0,15.0,14.0,high_fodmap;acidic
+Baked Salmon Fillet with Brown Basmati Rice & Steamed Asparagus,Lunch,460,38.0,38.0,17.0,safe
+Tuscan White Bean & Kale Soup with Whole Grain Bread (Low-Salt),Lunch,390,62.0,20.0,6.0,high_fodmap
+Turkey Breast Wrap in Whole Wheat Lavash with Spinach & Hummus,Lunch,420,44.0,36.0,12.0,safe
+"Warm French Puy Lentil Salad with Roasted Carrots, Walnuts & Parsley",Lunch,410,52.0,20.0,14.0,high_fodmap
+Grilled Cod Tacos in Soft Corn Tortillas with Mango Cabbage Slaw,Lunch,390,48.0,32.0,7.0,safe
+Black Bean & Sweet Potato Grain Bowl with Fresh Guacamole,Lunch,420,66.0,14.0,12.0,high_fodmap
+Lemon Herb Tuna Salad on Mixed Greens with Olive Oil Vinaigrette,Lunch,370,14.0,36.0,19.0,acidic
+"Farro Bowl with Roasted Butternut Squash, Arugula & Pumpkin Seeds",Lunch,390,62.0,13.0,11.0,safe
+Grilled Chicken Caesar Salad with Low-Sodium Herb Dressing (No Bacon),Lunch,410,12.0,42.0,21.0,dairy
+Moroccan Vegetable Tagine with Chickpeas & Whole Grain Couscous,Lunch,420,68.0,15.0,9.0,high_fodmap
+Baked Lemon Herb Trout with Steamed Green Beans & Quinoa,Lunch,440,36.0,40.0,15.0,acidic
+Whole Grain Penne Pasta with Roasted Vegetables & Marinara (Low Salt),Lunch,430,72.0,16.0,8.0,acidic
+Grilled Turkey Burger on Whole Grain Bun with Lettuce & Sliced Tomato,Lunch,450,38.0,38.0,16.0,acidic
+"Poached Salmon Rice Bowl with Edamame, Cucumbers & Sesame",Lunch,460,46.0,39.0,14.0,safe
+Roasted Vegetable & Hummus Sandwich on Sprouted Wheat Bread,Lunch,370,54.0,14.0,11.0,safe
+Grilled Chicken & Apple Salad with Walnuts & Cider Vinaigrette,Lunch,420,28.0,38.0,17.0,safe
+Lentil & Baby Spinach Stew with Baked Polenta Squares,Lunch,380,58.0,18.0,8.0,high_fodmap
+Citrus-Glazed Tilapia with Steamed Cauli-Rice & Sugar Snap Peas,Lunch,350,24.0,36.0,11.0,acidic
+Poached Chicken Breast with Steamed White Rice & Zucchini in EVOO,Lunch,360,42.0,36.0,6.5,bland
+Steamed Cod Fillet with Boiled Yellow Potatoes & Soft Carrots,Lunch,340,44.0,32.0,4.5,bland
+Mild Yellow Split Pea Soup with Steamed Basmati Rice (Zero Chili),Lunch,350,58.0,16.0,5.5,bland
+Baked Sea Bass with Mashed Sweet Potato & Peeled Zucchini,Lunch,370,42.0,34.0,6.0,bland
+Tender Turkey Breast Slices with Soft Steamed Polenta & EVOO,Lunch,330,38.0,32.0,5.0,bland
+Double Grilled Chicken Breast with 2 Cups Quinoa & Steamed Greens,Lunch,880,92.0,82.0,18.0,safe
+"Salmon Fillet (8 oz) with Brown Rice Pilaf, Avocado & Asparagus",Lunch,840,72.0,58.0,34.0,safe
+"Hearty Turkey Chili with Kidney Beans, Brown Rice & Diced Avocado",Lunch,790,88.0,54.0,22.0,high_fodmap;acidic
+"Baked Whole Wheat Ziti with Low-Fat Ricotta, Turkey & Broccoli",Lunch,820,96.0,58.0,21.0,dairy;acidic
+Grilled Halibut Feast with Roasted Fingerling Potatoes & Ratatouille,Lunch,810,68.0,62.0,29.0,acidic
+"Baked Cod alla Livornese (Fresh Low-Sodium Tomatoes, Herbs & EVOO)",Dinner,430,44.0,38.0,11.0,acidic
+Rosemary Garlic Roasted Chicken Breast with Baked Sweet Potato,Dinner,450,42.0,44.0,11.0,safe
+Grilled Atlantic Salmon with Lemon Herb Steamed Broccoli & Wild Rice,Dinner,470,38.0,42.0,17.0,acidic
+Turkey Meatballs in Fresh Tomato Basil Sauce over Whole Wheat Spaghetti,Dinner,460,58.0,36.0,10.0,acidic
+Moroccan Vegetable & Chickpea Stew with Steamed Whole Grain Couscous,Dinner,410,68.0,16.0,8.5,high_fodmap
+Grilled Swordfish Steak with Roasted Lemon Oregano Potatoes & Arugula,Dinner,460,36.0,40.0,17.0,acidic
+Pan-Roasted Pork Tenderloin with Sliced Apples & Braised Cabbage,Dinner,440,34.0,42.0,15.0,safe
+Steamed Sea Bass with Ginger Scallion Broth & Brown Basmati Rice,Dinner,420,44.0,38.0,8.5,safe
+"Stuffed Acorn Squash with Lean Ground Turkey, Wild Rice & Cranberries",Dinner,440,52.0,32.0,12.0,safe
+Baked Lemon Herb Chicken Thighs (Skinless) with Roasted Carrots & Quinoa,Dinner,470,42.0,42.0,15.0,acidic
+Lentil Shepherd's Pie with Mashed Sweet Potato Topping (Low Salt),Dinner,420,64.0,18.0,9.0,high_fodmap
+Grilled Shrimp Skewers with Lemon Herb Orzo & Steamed Asparagus,Dinner,410,46.0,34.0,9.5,acidic
+Baked Rainbow Trout with Rosemary Baby Potatoes & Sauteed Spinach,Dinner,450,36.0,38.0,17.0,safe
+"Vegetarian Chili with Black Beans, Sweet Corn & Brown Rice",Dinner,430,72.0,19.0,6.5,high_fodmap;acidic
+Grilled Turkey Cutlets with Steamed Broccolini & Herbed Barley,Dinner,420,44.0,42.0,7.0,safe
+Pan-Seared Sea Scallops with Cauliflower Puree & Roasted Brussels Sprouts,Dinner,390,24.0,34.0,17.0,safe
+Roasted Vegetable Lasagna with Low-Fat Ricotta & Whole Wheat Sheets,Dinner,460,58.0,24.0,14.0,dairy;acidic
+Lemon Pepper Halibut Fillet with Herbed Quinoa Pilaf & Steamed Zucchini,Dinner,430,38.0,40.0,12.0,acidic
+"Chicken Breast Stir-Fry with Snap Peas, Bell Peppers & Brown Rice",Dinner,440,48.0,42.0,9.0,safe
+Baked Eggplant Boats Stuffed with Herbed Turkey & Brown Rice,Dinner,420,42.0,34.0,13.0,acidic
+Poached Sea Bass Fillet with Steamed Potatoes & Olive Oil Drizzle,Dinner,350,34.0,34.0,8.0,bland
+Gentle Slow-Cooked Chicken Breast in Light Herb Broth with White Rice,Dinner,360,40.0,36.0,5.5,bland
+Baked Cod Fillet with Mashed Butternut Squash & Steamed String Beans,Dinner,340,38.0,32.0,6.5,bland
+Steamed Turkey Medallions with Soft Polenta & Sea Salt in EVOO,Dinner,350,38.0,34.0,6.0,bland
+"Strained Yellow Moong Dal Soup with Steamed Rice (Zero Chili, Mild)",Dinner,330,54.0,14.0,5.0,bland
+Double Baked Salmon Fillets (8 oz) with Sweet Potato & Steamed Greens,Dinner,890,64.0,64.0,41.0,safe
+Roasted Whole Cornish Game Hen with Wild Rice Pilaf & Roasted Root Veggies,Dinner,920,76.0,74.0,34.0,safe
+Moroccan Lamb Shank (Lean Trimmed) with Golden Couscous & Greens,Dinner,880,72.0,66.0,35.0,safe
+Baked Cod & Tiger Shrimp Feast with Saffron Rice & Ratatouille,Dinner,840,88.0,68.0,22.0,acidic
+"Grilled Sirloin Steak (Lean Cut, 8 oz) with Baked Potato & Broccoli",Dinner,860,52.0,68.0,41.0,safe
+Medium Banana with All-Natural Creamy Almond Butter (1 tbsp),Snack,200,31.0,4.5,9.0,safe
+Unsalted Roasted Almonds & Walnuts (35g trail mix),Snack,210,6.5,6.5,19.0,safe
+Sliced Honeycrisp Apple with Low-Fat Cheddar Cheese Stick,Snack,180,24.0,7.5,7.0,dairy
+Crisp Carrot & Celery Sticks with Low-Sodium Hummus (3 tbsp),Snack,140,18.0,4.5,6.0,high_fodmap
+Low-Fat Plain Greek Yogurt with Fresh Raspberries,Snack,150,16.0,15.0,2.0,dairy
+Air-Popped Popcorn with Nutritional Yeast & Black Pepper (No Salt),Snack,130,24.0,4.0,2.0,safe
+Two Clementine Oranges with Unsalted Raw Pumpkin Seeds (15g),Snack,180,22.0,6.0,9.0,acidic
+Steamed Edamame in Pods with Fresh Lemon Juice (Zero Added Salt),Snack,140,11.0,13.0,5.0,acidic
+Sliced Fresh Cantaloupe Melon with Fresh Mint Leaves,Snack,90,22.0,2.0,0.4,safe
+Whole Grain Wasa Crispbread with Low-Sodium Cottage Cheese,Snack,140,16.0,11.0,2.5,dairy
+Fresh Blueberries & Blackberries Bowl with Chia Seeds,Snack,130,22.0,3.0,4.5,safe
+Baked Kale Chips with Olive Oil & Nutritional Yeast (Zero Salt),Snack,110,10.0,4.0,7.0,safe
+Sliced Anjou Pear with Raw Unsalted Pistachios (25g),Snack,190,28.0,4.5,9.0,safe
+"Healthy Fruit & Nut Mix: Dried Apricots, Golden Raisins & Raw Pecans",Snack,190,26.0,3.0,10.0,safe
+Whole Wheat Pita Pocket (Half) with Low-Fat Ricotta & Honey,Snack,160,24.0,7.0,3.5,dairy
+Ripe Honeydew Melon Cubes with Mint (1.5 cups),Snack,95,24.0,1.5,0.3,bland
+Steamed Peeled Apple Slices with Pure Ceylon Cinnamon,Snack,90,24.0,0.5,0.3,bland
+Crisp White Rice Cakes (2 pcs) with Unsalted Peanut Butter,Snack,150,18.0,5.0,7.5,bland
+Plain Low-Fat Yogurt (Mild) with Sliced Ripe Bananas,Snack,160,28.0,10.0,1.5,bland;dairy
+"Potassium Superfood Smoothie: Spinach, Oats, Berries & Soy Milk",Snack,380,52.0,32.0,6.0,safe
+Whole Grain Toast with Double Natural Almond Butter & Banana,Snack,390,46.0,11.0,21.0,safe
+"Large Greek Yogurt Bowl with Granola, Chia Seeds, Honey & Walnuts",Snack,420,52.0,24.0,15.0,dairy

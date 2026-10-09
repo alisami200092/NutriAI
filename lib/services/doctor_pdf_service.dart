@@ -409,14 +409,57 @@ class DoctorPdfService {
                             ),
                             pw.SizedBox(height: 2),
                           ],
-                          pw.Text(
-                            sec.body,
-                            style: pw.TextStyle(
-                              fontSize: 8.5,
-                              color: darkText,
-                              lineSpacing: 1.3,
-                            ),
-                          ),
+                          ...sec.lines.map((line) {
+                            final isBullet = line.startsWith('• ') ||
+                                line.startsWith('- ') ||
+                                line.startsWith('* ');
+                            final cleanText =
+                                isBullet ? line.substring(2).trim() : line;
+
+                            if (isBullet) {
+                              return pw.Padding(
+                                padding: const pw.EdgeInsets.only(bottom: 2.5),
+                                child: pw.Row(
+                                  crossAxisAlignment:
+                                      pw.CrossAxisAlignment.start,
+                                  children: [
+                                    pw.Container(
+                                      margin: const pw.EdgeInsets.only(
+                                          top: 3.2, right: 4.5),
+                                      width: 3.2,
+                                      height: 3.2,
+                                      decoration: pw.BoxDecoration(
+                                        color: primaryTeal,
+                                        shape: pw.BoxShape.circle,
+                                      ),
+                                    ),
+                                    pw.Expanded(
+                                      child: pw.Text(
+                                        cleanText,
+                                        style: pw.TextStyle(
+                                          fontSize: 8.5,
+                                          color: darkText,
+                                          lineSpacing: 1.25,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              return pw.Padding(
+                                padding: const pw.EdgeInsets.only(bottom: 2),
+                                child: pw.Text(
+                                  cleanText,
+                                  style: pw.TextStyle(
+                                    fontSize: 8.5,
+                                    color: darkText,
+                                    lineSpacing: 1.25,
+                                  ),
+                                ),
+                              );
+                            }
+                          }),
                         ],
                       ),
                     );
@@ -480,12 +523,16 @@ class DoctorPdfService {
                         color: PdfColors.grey300,
                         width: 0.5,
                       ),
+                      verticalInside: const pw.BorderSide(
+                        color: PdfColors.grey200,
+                        width: 0.5,
+                      ),
                     ),
                     columnWidths: const {
-                      0: pw.FixedColumnWidth(80),
-                      1: pw.FlexColumnWidth(3.0),
-                      2: pw.FixedColumnWidth(65),
-                      3: pw.FlexColumnWidth(2.0),
+                      0: pw.FlexColumnWidth(1.2),
+                      1: pw.FlexColumnWidth(1.9),
+                      2: pw.FlexColumnWidth(1.1),
+                      3: pw.FlexColumnWidth(1.4),
                     },
                     headerStyle: pw.TextStyle(
                       fontWeight: pw.FontWeight.bold,
@@ -495,25 +542,30 @@ class DoctorPdfService {
                     headerDecoration: pw.BoxDecoration(
                       color: accentGreen,
                     ),
+                    headerAlignment: pw.Alignment.center,
                     headerAlignments: const {
-                      0: pw.Alignment.centerLeft,
-                      1: pw.Alignment.centerLeft,
-                      2: pw.Alignment.centerRight,
-                      3: pw.Alignment.centerLeft,
+                      0: pw.Alignment.center,
+                      1: pw.Alignment.center,
+                      2: pw.Alignment.center,
+                      3: pw.Alignment.center,
                     },
                     cellStyle: const pw.TextStyle(
                       fontSize: 8,
                       color: PdfColors.black,
                     ),
+                    cellAlignment: pw.Alignment.center,
                     cellAlignments: const {
-                      0: pw.Alignment.centerLeft,
-                      1: pw.Alignment.centerLeft,
-                      2: pw.Alignment.centerRight,
-                      3: pw.Alignment.centerLeft,
+                      0: pw.Alignment.center,
+                      1: pw.Alignment.center,
+                      2: pw.Alignment.center,
+                      3: pw.Alignment.center,
                     },
                     cellPadding: const pw.EdgeInsets.symmetric(
-                      vertical: 4,
-                      horizontal: 6,
+                      vertical: 5.5,
+                      horizontal: 8,
+                    ),
+                    oddRowDecoration: const pw.BoxDecoration(
+                      color: PdfColors.grey50,
                     ),
                     headers: ['Category', 'Food Item', 'Calories', 'Detected Triggers'],
                     data: recentMeals.map((meal) {
@@ -642,6 +694,14 @@ class DoctorPdfService {
           return 'Sweeteners';
         case 'gluten':
           return 'Gluten';
+        case 'heavy_oil':
+          return 'Heavy Oil';
+        case 'heavy_fat':
+          return 'Heavy Fat';
+        case 'dry_refined':
+          return 'Refined / Dry';
+        case 'insoluble_roughage':
+          return 'Roughage';
         default:
           return _toTitleCase(t.replaceAll('_', ' '));
       }
@@ -674,12 +734,14 @@ class DoctorPdfService {
 
   /// Parses raw scribe output into clean section blocks
   static List<_PdfSection> _parseClinicalBrief(String text) {
-    final lines = text.split('\n');
+    final rawLines = text.split('\n');
     final sections = <_PdfSection>[];
     String currentTitle = '';
-    final currentBody = StringBuffer();
+    final currentLines = <String>[];
 
-    for (final rawLine in lines) {
+    final checkboxRegex = RegExp(r'^(\s*[-*•]?\s*)\[([ xXvV✓\-]?)\]\s*');
+
+    for (final rawLine in rawLines) {
       String line = rawLine
           .replaceAll(RegExp(r'\*{2,}'), '')
           .replaceAll(RegExp(r'#{1,6}\s*'), '')
@@ -687,30 +749,35 @@ class DoctorPdfService {
 
       if (line.isEmpty) continue;
 
+      // Strip any checkbox syntax like [x], [X], [ ], - [x], etc. and convert to clean bullet
+      if (checkboxRegex.hasMatch(line)) {
+        line = line.replaceFirst(checkboxRegex, '- ');
+      }
+
       // Check for section header bracket like [HEADER] or all-caps header
       final isHeader = (line.startsWith('[') && line.endsWith(']')) ||
-          (line.toUpperCase() == line && line.length < 50 && !line.startsWith('-'));
+          (line.toUpperCase() == line &&
+              line.length < 50 &&
+              !line.startsWith('-') &&
+              !line.startsWith('•'));
 
       if (isHeader) {
-        if (currentBody.isNotEmpty) {
-          sections.add(_PdfSection(currentTitle, currentBody.toString().trim()));
-          currentBody.clear();
+        if (currentLines.isNotEmpty) {
+          sections.add(_PdfSection(currentTitle, List<String>.from(currentLines)));
+          currentLines.clear();
         }
         currentTitle = line.replaceAll('[', '').replaceAll(']', '').trim();
       } else {
-        if (line.startsWith('- ') || line.startsWith('* ')) {
-          line = '• ${line.substring(2)}';
-        }
-        currentBody.writeln(line);
+        currentLines.add(line);
       }
     }
 
-    if (currentBody.isNotEmpty) {
-      sections.add(_PdfSection(currentTitle, currentBody.toString().trim()));
+    if (currentLines.isNotEmpty) {
+      sections.add(_PdfSection(currentTitle, List<String>.from(currentLines)));
     }
 
     if (sections.isEmpty) {
-      sections.add(_PdfSection('SUMMARY', text.replaceAll(RegExp(r'[\*#]'), '').trim()));
+      sections.add(_PdfSection('SUMMARY', [text.replaceAll(RegExp(r'[\*#]'), '').trim()]));
     }
 
     return sections;
@@ -798,6 +865,6 @@ class DoctorPdfService {
 
 class _PdfSection {
   final String title;
-  final String body;
-  _PdfSection(this.title, this.body);
+  final List<String> lines;
+  _PdfSection(this.title, this.lines);
 }

@@ -7,6 +7,9 @@ class MealService {
   List<List<dynamic>> _generalData = [];
   List<List<dynamic>> _pakistanData = [];
   List<List<dynamic>> _indianData = [];
+  List<List<dynamic>> _ketoData = [];
+  List<List<dynamic>> _mediterraneanData = [];
+  List<List<dynamic>> _dashData = [];
   bool _isLoaded = false;
 
   // Meat keywords for the "Nuclear Safety Filter"
@@ -38,6 +41,7 @@ class MealService {
     }
 
     try {
+      // 1. General Plan
       final rawGeneral = await rootBundle.loadString(
         'assets/fyp_meal_plan.csv',
       );
@@ -46,6 +50,7 @@ class MealService {
         shouldParseNumbers: true,
       ).convert(rawGeneral.replaceAll('\r\n', '\n'));
 
+      // 2. Pakistani Plan
       final rawPak = await rootBundle.loadString(
         'assets/fyp_pakistan_meal_plan.csv',
       );
@@ -54,6 +59,7 @@ class MealService {
         shouldParseNumbers: true,
       ).convert(rawPak.replaceAll('\r\n', '\n'));
 
+      // 3. Indian Plan
       final rawInd = await rootBundle.loadString(
         'assets/fyp_indian_meal_plan.csv',
       );
@@ -62,8 +68,53 @@ class MealService {
         shouldParseNumbers: true,
       ).convert(rawInd.replaceAll('\r\n', '\n'));
 
+      // 4. Keto Plan
+      try {
+        final rawKeto = await rootBundle.loadString(
+          'assets/fyp_keto_meal_plan.csv',
+        );
+        _ketoData = const CsvToListConverter(
+          eol: '\n',
+          shouldParseNumbers: true,
+        ).convert(rawKeto.replaceAll('\r\n', '\n'));
+      } catch (e) {
+        developer.log("⚠️ Could not load fyp_keto_meal_plan.csv: $e", name: 'MealService');
+      }
+
+      // 5. Mediterranean Plan
+      try {
+        final rawMed = await rootBundle.loadString(
+          'assets/fyp_mediterranean_meal_plan.csv',
+        );
+        _mediterraneanData = const CsvToListConverter(
+          eol: '\n',
+          shouldParseNumbers: true,
+        ).convert(rawMed.replaceAll('\r\n', '\n'));
+      } catch (e) {
+        developer.log("⚠️ Could not load fyp_mediterranean_meal_plan.csv: $e", name: 'MealService');
+      }
+
+      // 6. DASH Plan
+      try {
+        final rawDash = await rootBundle.loadString(
+          'assets/fyp_dash_meal_plan.csv',
+        );
+        _dashData = const CsvToListConverter(
+          eol: '\n',
+          shouldParseNumbers: true,
+        ).convert(rawDash.replaceAll('\r\n', '\n'));
+      } catch (e) {
+        developer.log("⚠️ Could not load fyp_dash_meal_plan.csv: $e", name: 'MealService');
+      }
+
+      // 7. Load Explicit GI Tag Catalogs for 100% Deterministic Gut Shield
+      await GiTriggerService.loadDishTags();
+
       _isLoaded = true;
-      developer.log("✅ Offline Meal CSVs Loaded (General: ${_generalData.length}, Pakistani: ${_pakistanData.length}, Indian: ${_indianData.length})", name: 'MealService');
+      developer.log(
+        "✅ Offline Meal CSVs Loaded (General: ${_generalData.length}, Pak: ${_pakistanData.length}, Ind: ${_indianData.length}, Keto: ${_ketoData.length}, Med: ${_mediterraneanData.length}, DASH: ${_dashData.length})",
+        name: 'MealService',
+      );
     } catch (e) {
       developer.log("❌ Error loading CSVs: $e", name: 'MealService');
     }
@@ -78,6 +129,7 @@ class MealService {
     required String dietType,
     required String restriction,
     List<String> activeGiTriggers = const [],
+    String dietaryStrategy = 'normal',
   }) async {
     await loadData();
 
@@ -85,24 +137,64 @@ class MealService {
     final String cleanDiet = dietType.toLowerCase().trim();
     final String cleanRestriction = restriction.toLowerCase().trim();
 
-    final bool isPakistani = cleanCuisine == 'pakistan' ||
+    final bool isKeto = cleanDiet.contains('keto') || cleanCuisine.contains('keto');
+    final bool isMed = cleanDiet.contains('mediterranean') || cleanCuisine.contains('mediterranean');
+    final bool isDash = cleanDiet.contains('dash') || cleanCuisine.contains('dash');
+
+    final bool isPakistani = !isKeto && !isMed && !isDash && (
+        cleanCuisine == 'pakistan' ||
         cleanCuisine == 'pakistani' ||
         cleanCuisine.contains('pakistan') ||
-        (cleanDiet.contains('pakistan') && !cleanCuisine.contains('indian'));
+        (cleanDiet.contains('pakistan') && !cleanCuisine.contains('indian')));
 
-    final bool isIndian = !isPakistani && (cleanCuisine == 'indian' ||
+    final bool isIndian = !isKeto && !isMed && !isDash && !isPakistani && (
+        cleanCuisine == 'indian' ||
         cleanCuisine.contains('indian') ||
         cleanDiet.contains('indian'));
 
-    developer.log("recommendMeal: target=$targetCalories, cuisine=$cleanCuisine, isPakistani=$isPakistani, isIndian=$isIndian, giTriggers=$activeGiTriggers", name: 'MealService');
+    developer.log(
+      "recommendMeal: target=$targetCalories, cuisine=$cleanCuisine, isKeto=$isKeto, isMed=$isMed, isDash=$isDash, isPakistani=$isPakistani, isIndian=$isIndian, giTriggers=$activeGiTriggers, strategy=$dietaryStrategy",
+      name: 'MealService',
+    );
 
-    if (isPakistani) {
+    if (isKeto && _ketoData.isNotEmpty) {
+      return _getKnnPlan(
+        _ketoData,
+        targetCalories,
+        cleanDiet,
+        cleanRestriction,
+        activeGiTriggers: activeGiTriggers,
+        dietaryStrategy: dietaryStrategy,
+        sourceLabel: "Keto (Offline KNN)",
+      );
+    } else if (isMed && _mediterraneanData.isNotEmpty) {
+      return _getKnnPlan(
+        _mediterraneanData,
+        targetCalories,
+        cleanDiet,
+        cleanRestriction,
+        activeGiTriggers: activeGiTriggers,
+        dietaryStrategy: dietaryStrategy,
+        sourceLabel: "Mediterranean (Offline KNN)",
+      );
+    } else if (isDash && _dashData.isNotEmpty) {
+      return _getKnnPlan(
+        _dashData,
+        targetCalories,
+        cleanDiet,
+        cleanRestriction,
+        activeGiTriggers: activeGiTriggers,
+        dietaryStrategy: dietaryStrategy,
+        sourceLabel: "DASH (Offline KNN)",
+      );
+    } else if (isPakistani) {
       return _getKnnPlan(
         _pakistanData.isNotEmpty ? _pakistanData : _generalData,
         targetCalories,
         cleanDiet,
         cleanRestriction,
         activeGiTriggers: activeGiTriggers,
+        dietaryStrategy: dietaryStrategy,
         sourceLabel: "Pakistani (FCTP Offline KNN)",
       );
     } else if (isIndian) {
@@ -112,6 +204,7 @@ class MealService {
         cleanDiet,
         cleanRestriction,
         activeGiTriggers: activeGiTriggers,
+        dietaryStrategy: dietaryStrategy,
         sourceLabel: "Indian (Offline KNN)",
       );
     } else {
@@ -121,6 +214,7 @@ class MealService {
         cleanDiet,
         cleanRestriction,
         activeGiTriggers: activeGiTriggers,
+        dietaryStrategy: dietaryStrategy,
         sourceLabel: "General (Offline KNN)",
       );
     }
@@ -135,6 +229,7 @@ class MealService {
     String diet,
     String restriction, {
     List<String> activeGiTriggers = const [],
+    String dietaryStrategy = 'normal',
     String sourceLabel = "General (Offline KNN)",
   }) {
     List<dynamic> header = data[0]
@@ -196,6 +291,17 @@ class MealService {
     // --- STEP 1.5: THE GI FILTER GATE (Deterministic Hard Exclusion) ---
     if (activeGiTriggers.isNotEmpty) {
       final giSafeUniverse = safeUniverse.where((row) {
+        if (idxB != -1 && idxL != -1 && idxD != -1 && idxS != -1 &&
+            row.length > idxB && row.length > idxL && row.length > idxD && row.length > idxS) {
+          final b = row[idxB].toString();
+          final l = row[idxL].toString();
+          final d = row[idxD].toString();
+          final s = row[idxS].toString();
+          return GiTriggerService.isFoodSafe(b, activeGiTriggers) &&
+                 GiTriggerService.isFoodSafe(l, activeGiTriggers) &&
+                 GiTriggerService.isFoodSafe(d, activeGiTriggers) &&
+                 GiTriggerService.isFoodSafe(s, activeGiTriggers);
+        }
         final rowString = row.join(' ').toLowerCase();
         return GiTriggerService.isFoodSafe(rowString, activeGiTriggers);
       }).toList();
@@ -212,6 +318,26 @@ class MealService {
           "⚠️ Gut Shield Filter produced 0 meals. Safeguard fallback triggered.",
           name: 'MealService',
         );
+      }
+    }
+
+    // --- STEP 1.6: STRATEGY ADJUSTMENT FOR MOTILITY ---
+    final cleanStrategy = dietaryStrategy.toLowerCase().trim();
+    if (cleanStrategy == "high_fiber_hydration") {
+      final highFiber = safeUniverse.where((row) {
+        final rowString = row.join(' ').toLowerCase();
+        return GiTriggerService.isHighFiber(rowString);
+      }).toList();
+      if (highFiber.length >= 3) {
+        safeUniverse = highFiber;
+      }
+    } else if (cleanStrategy == "low_residue_bland" || cleanStrategy == "gastric_sparing") {
+      final blandOptions = safeUniverse.where((row) {
+        final rowString = row.join(' ').toLowerCase();
+        return GiTriggerService.isBland(rowString);
+      }).toList();
+      if (blandOptions.length >= 3) {
+        safeUniverse = blandOptions;
       }
     }
 

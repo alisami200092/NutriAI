@@ -59,7 +59,7 @@ class _ChatbotPageState extends State<ChatbotPage>
                         ),
                       ),
                       TextSpan(
-                        text: "AI",
+                        text: "BOT",
                         style: TextStyle(
                           color: Color(0xFFF1AE4C),
                           fontSize: 17,

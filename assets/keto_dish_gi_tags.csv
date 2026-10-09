@@ -1,0 +1,113 @@
+Meal_Name,Category,Calories,Carbs,Protein,Fats,GI_Triggers
+Scrambled Eggs with Crispy Bacon & Sliced Avocado,Breakfast,430,6.0,24.0,35.0,safe
+Smoked Salmon & Cream Cheese Omelette with Baby Spinach,Breakfast,380,4.5,28.0,28.0,dairy
+Keto Bulletproof Coffee with Grass-Fed Butter & MCT Oil,Breakfast,260,0.5,1.0,29.0,dairy;caffeine
+Fluffy Almond Flour Keto Pancakes with Butter & Sugar-Free Syrup,Breakfast,390,8.0,14.0,34.0,dairy
+Baked Avocado Egg Boats with Cheddar Cheese & Chives,Breakfast,360,7.5,16.0,30.0,dairy
+Spanish Chorizo & Egg Scramble with Cotija Cheese,Breakfast,460,5.0,26.0,37.0,dairy;spicy
+Keto Eggs Benedict on Portobello Mushroom with Hollandaise,Breakfast,410,5.5,18.0,35.0,dairy
+Chia Seed Coconut Pudding with Crushed Walnuts & Cinnamon,Breakfast,310,9.0,8.0,27.0,safe
+French Herb & Gruyere Cheese Omelette with Garlic Butter,Breakfast,420,3.5,25.0,34.0,dairy
+Skillet Pork Sausage Patties with Sunny-Side Up Eggs & Spinach,Breakfast,450,4.0,27.0,36.0,safe
+"Keto Green Breakfast Smoothie with Avocado, Spinach & Coconut Milk",Breakfast,280,8.0,6.0,26.0,safe
+Mexican Machaca Shredded Beef with Scrambled Eggs & Guacamole,Breakfast,440,6.0,34.0,31.0,spicy
+"Smoked Trout with Hard-Boiled Eggs, Capers & Olive Oil",Breakfast,350,2.5,30.0,24.0,safe
+Ham & Swiss Cheese Egg Cups with Green Onions (3 pcs),Breakfast,320,3.0,24.0,23.0,dairy
+Crispy Bacon & Mozzarella Chaffles with Garlic Herb Butter,Breakfast,410,4.0,22.0,33.0,dairy
+Smoked Gouda & Prosciutto Plate with Boiled Eggs & Olives,Breakfast,420,3.0,26.0,33.0,dairy
+"Zucchini, Bacon & Goat Cheese Frittata Slice",Breakfast,360,5.0,18.0,29.0,dairy
+Coconut Flour Porridge (Noats) with Heavy Cream & Pecans,Breakfast,350,9.0,7.0,32.0,dairy
+"Turkey Bacon, Sliced Avocado & Soft-Boiled Egg Salad",Breakfast,370,7.0,22.0,28.0,safe
+Fried Eggs in Extra Virgin Olive Oil with Feta & Fresh Basil,Breakfast,340,3.0,16.0,29.0,dairy
+Soft Poached Eggs with Steamed Zucchini & Olive Oil Drizzle,Breakfast,260,4.5,14.0,20.0,bland
+Plain Scrambled Eggs in Coconut Oil with Avocado Mash (No Chili),Breakfast,290,5.0,14.0,24.0,bland
+Warm Bone Broth Egg Drop Soup with Shredded Chicken,Breakfast,240,2.0,28.0,13.0,bland
+Steamed Cod Fillet with Mashed Cauliflower in Ghee (Mild),Breakfast,270,5.0,30.0,14.0,bland
+Boiled Egg Whites & Avocado Salad with Light Olive Oil (Mild),Breakfast,220,5.5,15.0,16.0,bland
+Triple Egg & Steak Breakfast Skillet with Monterey Jack,Breakfast,780,4.0,54.0,61.0,dairy;heavy_fat
+"Carnivore Loaded Omelette with Bacon, Sausage & Sharp Cheddar",Breakfast,820,3.5,48.0,68.0,dairy;heavy_fat
+Keto Sausage Patties with Almond Flour Biscuits & Country Gravy,Breakfast,760,10.0,32.0,65.0,dairy;heavy_fat
+Cream Cheese Stuffed Bacon-Wrapped Jalapeno Poppers with 2 Fried Eggs,Breakfast,690,6.0,28.0,61.0,dairy;spicy;heavy_fat
+Keto Heavy Cream Matcha Latte with Macadamia Butter & 3 Boiled Eggs,Breakfast,650,6.5,24.0,58.0,dairy;heavy_fat
+"Classic Cobb Salad with Grilled Chicken, Bacon, Avocado & Blue Cheese",Lunch,560,8.0,44.0,39.0,dairy
+Grilled Ribeye Steak with Garlic Herb Compound Butter & Asparagus,Lunch,620,5.0,46.0,46.0,dairy;heavy_fat
+Pan-Seared Salmon Fillet with Lemon Butter Sauce & Steamed Broccolini,Lunch,520,6.0,42.0,36.0,dairy
+"Keto Bacon Cheeseburger Salad Bowl with Romaine, Pickles & Cheddar",Lunch,590,7.0,38.0,45.0,dairy
+Chicken Caesar Salad with Parmesan Crisps & Anchovy Dressing (No Croutons),Lunch,490,5.0,42.0,33.0,dairy
+Mexican Carnitas Pork Lettuce Wraps with Guacamole & Sour Cream,Lunch,540,6.5,36.0,40.0,dairy
+Tuna Salad Stuffed Avocado Halves with Olive Oil Mayonnaise,Lunch,460,7.0,32.0,34.0,safe
+Greek Chicken Souvlaki Skewers with Tzatziki & Cucumber Feta Salad,Lunch,480,7.5,41.0,31.0,dairy
+Creamy Tuscan Garlic Chicken Breast with Spinach & Sun-Dried Tomatoes,Lunch,530,8.0,44.0,35.0,dairy
+Keto Philly Cheesesteak Skillet with Sliced Ribeye & Melted Provolone,Lunch,580,6.0,42.0,42.0,dairy
+Grilled Pork Chops with Creamy Dijon Mustard Sauce & Green Beans,Lunch,490,6.5,43.0,32.0,dairy
+Mediterranean Grilled Shrimp Skewers with Herb Garlic Butter & Arugula,Lunch,420,4.5,34.0,29.0,dairy
+Crispy Roasted Duck Breast with Braised Brussels Sprouts in Bacon Fat,Lunch,610,7.0,36.0,47.0,heavy_fat
+Asian Pork Belly Lettuce Wraps with Sesame Oil & Scallions,Lunch,540,5.0,28.0,45.0,heavy_fat
+"Keto Caprese Salad with Buffalo Mozzarella, Heirloom Tomatoes, Basil & EVOO",Lunch,440,7.5,22.0,35.0,dairy
+Smoked Salmon & Avocado Tartare with Capers & Extra Virgin Olive Oil,Lunch,430,5.5,26.0,33.0,safe
+"Beef Taco Salad Bowl with Ground Sirloin, Jalapenos, Cheddar & Crema",Lunch,560,7.0,39.0,41.0,dairy;spicy
+Lemon Rosemary Grilled Chicken Thighs with Roasted Zucchini Ribbons,Lunch,470,5.0,39.0,32.0,safe
+Keto Crab Cakes (Almond Flour Bound) with Lemon Herb Aioli,Lunch,450,6.0,31.0,33.0,safe
+Prosciutto-Wrapped Halibut Fillet with Basil Pesto & Asparagus,Lunch,490,4.5,41.0,33.0,dairy
+Poached Chicken Breast with Steamed Zucchini & Olive Oil Drizzle,Lunch,340,4.0,38.0,19.0,bland
+Steamed Salmon Fillet in Light Sea Salt Broth with Mashed Cauliflower,Lunch,380,5.5,36.0,23.0,bland
+Clear Beef Bone Broth with Tender Shredded Brisket & Peeled Zucchini,Lunch,360,3.5,38.0,21.0,bland
+Baked Lemon Whitefish with Steamed Yellow Squash (No Pepper),Lunch,320,4.5,34.0,18.0,bland
+Steamed Turkey Breast with Mashed Avocado & Sea Salt,Lunch,350,5.0,36.0,20.0,bland
+"Double Bacon Wagyu Burger Patties with Swiss, Avocado & Garlic Aioli",Lunch,1020,6.0,62.0,84.0,dairy;heavy_fat
+Slow-Roasted Crispy Pork Belly with Garlic Mayonnaise & Macadamia Salad,Lunch,980,5.0,42.0,88.0,heavy_fat
+Braised Lamb Shank in Rosemary Tallow with Creamy Mashed Cauliflower,Lunch,940,7.0,56.0,75.0,dairy;heavy_fat
+Crispy Duck Confit with Sauteed Pancetta & Asparagus in Duck Fat,Lunch,960,6.0,48.0,82.0,heavy_fat
+Loaded Ribeye Surf & Turf with Garlic Butter Jumbo Prawns & Bearnaise,Lunch,1040,5.0,66.0,83.0,dairy;heavy_fat
+Pan-Seared Filet Mignon with Truffle Herb Butter & Garlic Spinach,Dinner,580,4.5,48.0,41.0,dairy
+Grilled Lemon Herb Lamb Chops with Roasted Cauliflower Florets,Dinner,540,6.0,42.0,38.0,safe
+Creamy Garlic Butter Shrimp over Zucchini Noodles (Keto Scampi),Dinner,440,7.0,34.0,31.0,dairy
+Crispy Skin Roasted Chicken Thighs with Creamed Spinach & Bacon,Dinner,520,5.5,38.0,37.0,dairy
+Keto Beef Stroganoff with Tender Sirloin & Mushrooms in Sour Cream,Dinner,560,7.5,44.0,39.0,dairy
+Grilled Chilean Sea Bass with Lemon Caper Butter & Asparagus,Dinner,460,4.0,38.0,32.0,dairy
+Blackened Salmon Fillet with Avocado Jalapeno Crema & Grilled Zucchini,Dinner,510,6.5,41.0,35.0,dairy;spicy
+Slow-Cooked Beef Short Ribs in Bone Broth with Cauliflower Puree,Dinner,620,6.0,44.0,46.0,dairy;heavy_fat
+Keto Chicken Parmesan (Pork Panko Crusted) with Mozzarella,Dinner,510,6.0,46.0,33.0,dairy
+Roasted Pork Tenderloin with Creamy Gorgonzola Sauce & Green Beans,Dinner,480,5.5,42.0,31.0,dairy
+Italian Sausage & Sweet Bell Pepper Skillet with Grated Pecorino,Dinner,530,8.0,32.0,41.0,dairy
+Grilled Swordfish Steak with Herb Chimichurri & Charred Broccolini,Dinner,470,5.0,39.0,32.0,safe
+Seared Sea Scallops with Pancetta Crisps & Lemon Brown Butter,Dinner,420,5.5,28.0,31.0,dairy
+Keto Beef & Pork Meatballs in Tomato Basil Sauce with Melted Fontina,Dinner,540,8.5,36.0,40.0,dairy
+Braised Oxtail in Rich Beef Broth Reduction with Steamed Bok Choy,Dinner,590,4.5,42.0,44.0,heavy_fat
+Herb-Crusted Roasted Turkey Thigh with Sautéed Garlic Mushrooms,Dinner,480,5.0,42.0,32.0,safe
+Pan-Seared Duck Breast with Rosemary Olive Oil Glaze & Sautéed Kale,Dinner,560,6.0,34.0,44.0,heavy_fat
+Keto Bunless Bacon Avocado Burger with Melted Cheddar & Mayo,Dinner,590,5.5,38.0,46.0,dairy
+Grilled Veal Chops with Sage Butter & Creamy Sautéed Mushrooms,Dinner,520,4.5,41.0,37.0,dairy
+Baked Cod Fillet with Herb Macadamia Nut Crust & Romanesco,Dinner,450,6.0,34.0,31.0,safe
+Poached Sea Bass Fillet with Steamed Zucchini Ribbons & Olive Oil,Dinner,330,4.0,36.0,19.0,bland
+Slow-Cooked Chicken Thigh in Bone Broth with Peeled Zucchini (Gentle),Dinner,360,3.5,35.0,22.0,bland
+Baked Cod with Pure Desi Ghee & Cauliflower Mash (Zero Spice),Dinner,350,5.0,33.0,22.0,bland;dairy
+Herb-Infused Light Turkey Stew with Steamed Yellow Squash (Bland),Dinner,320,4.5,36.0,17.0,bland
+Japanese Steamed Egg Custard with Tender Chicken Flakes (Mild),Dinner,280,3.0,26.0,18.0,bland
+Tomahawk Ribeye Steak with Garlic Herb Butter & Loaded Spinach,Dinner,1080,5.0,68.0,89.0,dairy;heavy_fat
+Slow-Roasted Pork Shoulder (Pernil) with Crispy Skin & Garlic Mojo,Dinner,1020,4.5,62.0,84.0,heavy_fat
+Braised Osso Buco Shank with Bone Marrow & Creamy Cauliflower Purée,Dinner,980,6.5,58.0,79.0,dairy;heavy_fat
+Butter-Basted Lobster Tail & Prime New York Strip with Truffle Aioli,Dinner,1040,4.0,64.0,86.0,dairy;heavy_fat
+Double Lamb Loin Chops with Rosemary Herb Fat & Sautéed Prosciutto Greens,Dinner,960,5.5,54.0,80.0,heavy_fat
+Roasted Macadamia Nuts with Sea Salt (40g pack),Snack,290,5.5,3.0,30.0,safe
+Celery Sticks with All-Natural Creamy Peanut Butter (2 tbsp),Snack,190,7.0,7.0,16.0,safe
+Keto Guacamole Bowl with Crispy Bacon Chips (No Corn),Snack,260,6.0,8.0,24.0,safe
+Sliced Pepperoni & Aged Cheddar Cheese Snack Plate (50g),Snack,240,1.5,12.0,21.0,dairy
+Hard-Boiled Eggs (2 pcs) with Avocado Oil Mayonnaise,Snack,210,1.5,12.0,18.0,safe
+Green Queen Olives Stuffed with Feta Cheese & EVOO (60g),Snack,170,2.5,3.0,17.0,dairy
+Crispy Pork Rinds (Chicharrones - 35g) with Sour Cream Dip,Snack,230,1.5,18.0,17.0,dairy
+Keto Peanut Butter & Dark Chocolate Fat Bombs (2 pcs),Snack,220,4.5,4.0,22.0,safe
+Smoked Salmon Roll-Ups with Herb Cream Cheese (3 pcs),Snack,180,2.0,12.0,14.0,dairy
+Roasted Salted Pecans with Cinnamon Butter (35g),Snack,250,4.5,3.0,26.0,dairy
+Fresh Sliced Avocado with Extra Virgin Olive Oil & Flaky Sea Salt,Snack,190,6.0,2.0,19.0,safe
+"Keto Beef Biltong / Jerky (Zero Sugar, 45g)",Snack,160,1.0,24.0,7.0,safe
+Cream Cheese Stuffed Mini Cucumbers with Bagel Seasoning,Snack,140,3.5,3.0,13.0,dairy
+Keto Coconut Vanilla Collagen Protein Bar (Unsweetened),Snack,180,5.0,12.0,13.0,safe
+Prosciutto-Wrapped Mozzarella String Cheese (2 pcs),Snack,210,1.5,16.0,16.0,dairy
+Ripe Avocado Slices with Pinch of Pink Himalayan Salt,Snack,130,4.5,1.5,12.5,bland
+Warm Grass-Fed Beef Bone Broth (1 Cup) with Light Sea Salt,Snack,70,0.5,11.0,2.5,bland
+Two Hard-Boiled Egg Whites with Light Olive Oil Drizzle,Snack,80,1.0,8.0,4.5,bland
+Steamed Zucchini Puree Dip with Olive Oil & Salt (No Garlic),Snack,90,3.5,1.5,8.0,bland
+"Loaded Charcuterie Plate with Salami, Prosciutto, Brie & Macadamias",Snack,460,4.0,22.0,40.0,dairy;heavy_fat
+Keto Mascarpone & Almond Butter Mousse with Cocoa Powder,Snack,420,6.0,8.0,42.0,dairy;heavy_fat
+Heavy Whipping Cream Berry Bowl with Roasted Walnuts (Low Carb),Snack,390,7.5,5.0,39.0,dairy;heavy_fat

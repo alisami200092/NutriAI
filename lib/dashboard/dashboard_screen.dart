@@ -105,6 +105,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   // --- GUT SHIELD STATE ---
   bool _gutShieldActive = false;
+  bool _isGutShieldEscalated = false;
+  String _motilityState = "normal";
+  String _dietaryStrategy = "normal";
   List<String> _activeGiTriggers = [];
   String _symptomSummary = "";
 
@@ -262,13 +265,36 @@ class _DashboardScreenState extends State<DashboardScreen> {
         final bool savedCuisineMatches = savedCuisine != null &&
             savedCuisine.trim().toLowerCase() == newDietType.trim().toLowerCase();
 
-        // ✅ Read Gut Shield Status and Active Triggers
+        // ✅ Read Gut Shield Status, Motility State, and Active Triggers
         final bool newGutShieldActive = data['gut_shield_active'] == true;
+        final String newMotilityState =
+            data['motility_state']?.toString().toLowerCase().trim() ?? 'normal';
+        final String newDietaryStrategy =
+            data['dietary_strategy']?.toString().toLowerCase().trim() ?? 'normal';
         final List<String> newGiTriggers = List<String>.from(
-          (data['active_gi_triggers'] as List?)?.map((e) => e.toString()) ?? [],
+          ((data['blocked_triggers'] as List?) ??
+                  (data['active_gi_triggers'] as List?))
+              ?.map((e) => e.toString()) ?? [],
         );
-        final String newSymptomSummary = data['symptom_summary'] ?? "";
+        final String newSymptomSummary =
+            data['symptom_summary']?.toString() ?? '';
+        // Check duration escalation (>72h) or auto-expiration (>7d)
+        bool isEscalated = false;
+        if (data['last_gi_incident'] != null && data['last_gi_incident'] is Timestamp) {
+          final incidentTime = (data['last_gi_incident'] as Timestamp).toDate();
+          final diff = DateTime.now().difference(incidentTime);
+          if (diff.inDays >= 7 && newGutShieldActive) {
+            _dismissGutShield();
+            return;
+          } else if (diff.inHours >= 72 && newGutShieldActive) {
+            isEscalated = true;
+          }
+        }
+
         final bool gutShieldChanged = _gutShieldActive != newGutShieldActive ||
+            _motilityState != newMotilityState ||
+            _dietaryStrategy != newDietaryStrategy ||
+            _isGutShieldEscalated != isEscalated ||
             _activeGiTriggers.join(',') != newGiTriggers.join(',');
 
         setState(() {
@@ -283,6 +309,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
           _targetProtein = targets.protein;
           _targetFat = targets.fat;
           _gutShieldActive = newGutShieldActive;
+          _isGutShieldEscalated = isEscalated;
+          _motilityState = newMotilityState;
+          _dietaryStrategy = newDietaryStrategy;
           _activeGiTriggers = newGiTriggers;
           _symptomSummary = newSymptomSummary;
           _isLoadingProfile = false;
@@ -385,6 +414,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final int sCals = (_calorieBudget * 0.10).toInt();
     final List<String> triggers =
         _gutShieldActive ? _activeGiTriggers : const [];
+    final String strategy =
+        _gutShieldActive ? _dietaryStrategy : "normal";
 
     setState(() {
       _currentBreakfast = AIMealPlanGenerator.getBreakfast(
@@ -396,6 +427,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         calorieBudget: bCals,
         forceNew: true,
         activeGiTriggers: triggers,
+        dietaryStrategy: strategy,
       );
       _currentLunch = AIMealPlanGenerator.getLunch(
         cuisine: _userDietType,
@@ -406,6 +438,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         calorieBudget: lCals,
         forceNew: true,
         activeGiTriggers: triggers,
+        dietaryStrategy: strategy,
       );
       _currentDinner = AIMealPlanGenerator.getDinner(
         cuisine: _userDietType,
@@ -416,6 +449,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         calorieBudget: dCals,
         forceNew: true,
         activeGiTriggers: triggers,
+        dietaryStrategy: strategy,
       );
       _currentSnack = AIMealPlanGenerator.getSnack(
         cuisine: _userDietType,
@@ -426,6 +460,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         calorieBudget: sCals,
         forceNew: true,
         activeGiTriggers: triggers,
+        dietaryStrategy: strategy,
       );
     });
     _saveCurrentMealPlanToFirestore();
@@ -437,18 +472,33 @@ class _DashboardScreenState extends State<DashboardScreen> {
     try {
       final user = FirebaseAuth.instance.currentUser;
       if (user != null) {
+        final resetData = {
+          'gut_shield_active': false,
+          'motility_state': 'normal',
+          'dietary_strategy': 'normal',
+          'blocked_triggers': <String>[],
+          'active_gi_triggers': <String>[],
+          'gut_shield_deactivated_at': FieldValue.serverTimestamp(),
+        };
+
         await FirebaseFirestore.instance
             .collection('UserProfiles')
             .doc(user.uid)
-            .set({
-          'gut_shield_active': false,
-          'active_gi_triggers': <String>[],
-          'gut_shield_deactivated_at': FieldValue.serverTimestamp(),
-        }, SetOptions(merge: true));
+            .set(resetData, SetOptions(merge: true));
+
+        try {
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .set(resetData, SetOptions(merge: true));
+        } catch (_) {}
 
         if (mounted) {
           setState(() {
             _gutShieldActive = false;
+            _isGutShieldEscalated = false;
+            _motilityState = 'normal';
+            _dietaryStrategy = 'normal';
             _activeGiTriggers = [];
           });
           _regenerateFromCSV();
@@ -1182,8 +1232,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
               // --- GUT SHIELD BANNER (ACTIVE WHEN SYMPTOMS REPORTED) ---
               if (_gutShieldActive) ...[
                 GutShieldBanner(
+                  motilityState: _motilityState,
+                  dietaryStrategy: _dietaryStrategy,
                   symptomSummary: _symptomSummary,
                   activeTriggers: _activeGiTriggers,
+                  isDurationEscalated: _isGutShieldEscalated,
                   onDismiss: _dismissGutShield,
                 ),
                 const SizedBox(height: 16),

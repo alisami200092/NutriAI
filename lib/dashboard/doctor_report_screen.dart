@@ -58,6 +58,9 @@ class _DoctorReportScreenState extends State<DoctorReportScreen> {
             profile = doc.data();
             giData = {
               'gut_shield_active': doc.data()?['gut_shield_active'],
+              'motility_state': doc.data()?['motility_state'],
+              'dietary_strategy': doc.data()?['dietary_strategy'],
+              'blocked_triggers': doc.data()?['blocked_triggers'],
               'active_gi_triggers': doc.data()?['active_gi_triggers'],
               'symptom_summary': doc.data()?['symptom_summary'],
               'last_gi_incident': doc.data()?['last_gi_incident'],
@@ -869,8 +872,17 @@ class _DoctorReportScreenState extends State<DoctorReportScreen> {
   }
 
   Widget _buildClinicalLine(String line) {
-    final isBullet = line.startsWith('• ') || line.startsWith('- ') || line.startsWith('* ');
-    final cleanLine = isBullet ? line.substring(2).trim() : line;
+    // Replace any markdown checkbox syntax ([x], [X], [ ], [v], [✓]) with clean bullet
+    String processed = line;
+    final checkboxRegex = RegExp(r'^(\s*[-*•]?\s*)\[([ xXvV✓\-]?)\]\s*');
+    if (checkboxRegex.hasMatch(processed)) {
+      processed = processed.replaceFirst(checkboxRegex, '• ');
+    }
+
+    final isBullet = processed.startsWith('• ') ||
+        processed.startsWith('- ') ||
+        processed.startsWith('* ');
+    final cleanLine = isBullet ? processed.substring(2).trim() : processed;
 
     final spans = <TextSpan>[];
     final regex = RegExp(r'\*\*(.+?)\*\*');
@@ -917,12 +929,13 @@ class _DoctorReportScreenState extends State<DoctorReportScreen> {
       return Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            '• ',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
+          Container(
+            margin: const EdgeInsets.only(top: 7, right: 8),
+            width: 5,
+            height: 5,
+            decoration: const BoxDecoration(
               color: Color(0xFF2E7D32),
+              shape: BoxShape.circle,
             ),
           ),
           Expanded(

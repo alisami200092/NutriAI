@@ -1,0 +1,113 @@
+Meal_Name,Category,Calories,Carbs,Protein,Fats,GI_Triggers
+Halwa Puri with Chana Masala (Sunday Special),Breakfast,690,88.0,14.0,32.0,deep_fried;high_fodmap
+Plain Desi Ghee Paratha with Shami Kabab & Chai,Breakfast,510,46.0,18.0,28.0,dairy;spicy
+1 Crispy Aloo Paratha with Fresh Dahi & Mint Raita,Breakfast,460,58.0,11.0,21.0,dairy;spicy
+Mooli Paratha with Zeera Raita & Chai,Breakfast,390,48.0,10.0,18.0,dairy
+Bong Paye (Mutton Trotters Broth) with 1 Tandoori Naan,Breakfast,620,52.0,38.0,30.0,heavy_oil
+Murgh Chana (Chicken & Chickpeas Curry) with 1 Kulcha,Breakfast,540,56.0,28.0,22.0,spicy;high_fodmap
+"Khagina (Spiced Scrambled Eggs with Onion, Tomato, Green Chili) with 1 Paratha",Breakfast,480,42.0,16.0,28.0,spicy;acidic
+Anda Ghotala (Street Style Spiced Egg Curry Scramble) with 1 Tandoori Roti,Breakfast,390,38.0,18.0,19.0,spicy;acidic
+2 Boiled Eggs with 2 Brown Bread Toasts & Green Tea,Breakfast,300,28.0,18.0,12.0,safe
+1 Whole Wheat Chapati with Fried Egg & Doodh Patti Chai,Breakfast,360,35.0,14.0,18.0,dairy
+Besan ka Chilla (Savory Gram Flour Pancake) with Mint Dahi,Breakfast,270,32.0,13.0,9.0,dairy
+Oatmeal Porridge in Cow Milk with Sliced Bananas & Almonds,Breakfast,320,49.0,12.0,8.0,dairy
+Wheat Dalia (Cracked Wheat Porridge in Buffalo Milk),Breakfast,290,41.0,11.0,9.0,dairy
+Egg White Spanish Omelette with 2 Slices Multigrain Toast,Breakfast,260,26.0,20.0,8.0,safe
+High Protein Shami Kebab Sandwich in Brown Bread with Cucumber,Breakfast,340,34.0,22.0,12.0,safe
+Nutella Stuffed French Toast with Fresh Strawberries,Breakfast,520,68.0,11.0,24.0,dairy
+Avocado Toast on Sourdough with Poached Eggs & Chili Flakes,Breakfast,410,32.0,17.0,25.0,safe
+"Breakfast Pancake Stack with Honey, Whipped Butter & Banana",Breakfast,480,72.0,9.0,18.0,dairy
+Grilled Smoked Chicken & Cheese Panini with Americano,Breakfast,450,42.0,28.0,19.0,dairy
+Acai Berry Greek Yogurt Smoothie Bowl with Chia Seeds & Granola,Breakfast,350,48.0,16.0,11.0,dairy
+Moong Dal Khichdi Breakfast Bowl with Warm Cumin Dahi,Breakfast,280,42.0,11.0,7.0,bland
+Steamed Shakarkandi (Sweet Potato) Chaat with Rock Salt & Cumin,Breakfast,210,46.0,3.5,1.5,bland
+Light Sooji Kheer (Semolina Porridge) with Crushed Cardamom,Breakfast,250,44.0,7.0,5.5,bland;dairy
+2 Soft Boiled Eggs with Light Water Crackers & Herbal Kahwa,Breakfast,210,18.0,14.0,9.0,bland
+"Rice Flakes (Poha) with Mild Turmeric, Boiled Potatoes & Coriander",Breakfast,270,48.0,6.0,6.5,bland
+2 Desi Ghee Aloo Parathas with Makhani Omelette & Sweet Lassi,Breakfast,880,94.0,24.0,46.0,dairy;deep_fried
+"Halwa Puri Thali (3 Puris, Chana Masala, Sooji Halwa & Achar)",Breakfast,950,122.0,18.0,44.0,deep_fried;high_fodmap
+Lahori Murgh Chana (Double Portion) with 2 Roghani Naans & Chai,Breakfast,890,98.0,46.0,36.0,spicy;high_fodmap
+Bong Paye & Nalli with 2 Tandoori Naans & Special Doodh Patti,Breakfast,920,82.0,52.0,44.0,heavy_oil
+"Bulking Oatmeal Bowl: 100g Oats, Buffalo Milk, 2 Bananas, 30g Peanut Butter & Honey",Breakfast,780,108.0,28.0,26.0,dairy
+Chicken Biryani with Mint Zeera Raita & Fresh Salad,Lunch,650,78.0,34.0,22.0,spicy;acidic;dairy
+Sindhi Mutton Biryani with Roasted Potatoes & Cucumber Raita,Lunch,740,82.0,38.0,29.0,spicy;acidic;dairy
+Aloo Gosht (Potato Beef Curry) with 1.5 Tandoori Rotis,Lunch,520,51.0,32.0,21.0,spicy
+Chicken Karahi (200g) with 2 Whole Wheat Chapatis & Salad,Lunch,540,48.0,42.0,21.0,spicy;acidic
+Kofta Curry (Spiced Meatballs) with 2 Chapatis,Lunch,480,46.0,30.0,19.0,spicy
+Beef Pulao Gosht with Mint Raita & Sliced Cucumbers,Lunch,610,69.0,35.0,22.0,dairy
+Beef Shami Kebab (2 pcs) with 1 Whole Wheat Roti & Salad,Lunch,380,36.0,26.0,14.0,safe
+Chicken Qorma (Traditional Degi Style) with 1 Sheermal Roti,Lunch,630,54.0,36.0,31.0,spicy;dairy
+Daal Channa with 2 Chapatis & Onion Salad,Lunch,440,62.0,19.0,13.0,high_fodmap
+Daal Masoor Curry with Boiled Basmati Rice & Kachumber,Lunch,430,68.0,17.0,10.0,safe
+Bhindi Masala (Okra Curry) with 2 Whole Wheat Chapatis,Lunch,360,49.0,11.0,14.0,safe
+Lobia / Red Kidney Bean Curry (Kalool) with Zeera Rice,Lunch,460,72.0,18.0,11.0,high_fodmap
+Kadhi Pakora with Steamed White Rice,Lunch,520,66.0,16.0,22.0,deep_fried;dairy
+Arvi Gosht (Colocasia with Mutton Curry) with 2 Phulkas,Lunch,510,47.0,31.0,22.0,spicy
+Chicken Manchurian with Egg Fried Rice,Lunch,590,74.0,32.0,18.0,acidic
+Desi Chinese Chicken Shashlik with Garlic Fried Rice,Lunch,570,71.0,34.0,17.0,acidic
+Beef Chilli Dry with Steamed Jasmine Rice,Lunch,560,58.0,38.0,20.0,spicy
+Crispy Zinger Chicken Burger with Seasoned French Fries,Lunch,780,79.0,32.0,38.0,deep_fried;spicy;dairy
+Alfredo Fettuccine Pasta with Grilled Chicken Breast,Lunch,690,64.0,39.0,31.0,dairy
+Spicy Chicken Fajita Roll (Paratha Roll) with Garlic Mayo,Lunch,610,52.0,26.0,34.0,spicy;dairy;deep_fried
+Lauki Moong Daal (Bottle Gourd Stew) with 2 Soft Phulkas,Lunch,340,52.0,15.0,8.0,bland
+Tinda Gosht Shorba (Light Apple Gourd Mutton Broth) with Boiled Rice,Lunch,420,48.0,29.0,12.0,bland
+Mild Matar Pulao with Fresh Homemade Cucumber Dahi,Lunch,390,58.0,12.0,12.0,bland;dairy
+Steamed Chicken Breast with Boiled Potato Mash & Herb Gravy,Lunch,370,34.0,38.0,9.0,bland
+Turai (Ridge Gourd) ki Sabzi with 2 Thin Whole Wheat Rotis,Lunch,310,46.0,9.0,10.0,bland
+Special Lahori Mutton Karahi (Half Handi) with 2 Roghani Naans & Zeera Raita,Lunch,980,84.0,62.0,48.0,spicy;dairy
+Double Patty Smash Beef Burger with Loaded Cheese Fries & Dip,Lunch,1080,98.0,54.0,56.0,deep_fried;dairy
+Sindhi Mutton Biryani (Double Plate) with Shami Kebab & Fresh Salad,Lunch,1020,124.0,54.0,38.0,spicy;acidic
+Chicken Makhani Handi with 2 Garlic Butter Naans & Kachumber,Lunch,960,88.0,56.0,46.0,dairy;spicy
+KPK Shinwari Lamb Karahi with 2 Tandoori Naans & Mint Dahi,Lunch,940,78.0,58.0,48.0,spicy
+Palak Gosht (Spinach Mutton Curry) with 1.5 Chapatis,Dinner,530,42.0,36.0,24.0,spicy
+Peshawari Chapli Kabab (2 pcs) with 1 Whole Wheat Roti & Salad,Dinner,560,38.0,36.0,30.0,spicy;deep_fried
+Machli (Pan Fried Spiced Rahu Fish) with 1 Roti & Fresh Lemon,Dinner,440,36.0,34.0,18.0,spicy
+Chicken Haleem with 1 Tandoori Naan & Golden Fried Onions,Dinner,620,72.0,39.0,20.0,spicy;high_fodmap
+Palak Paneer (Spinach with Cottage Cheese) with 2 Chapatis,Dinner,470,45.0,22.0,23.0,dairy;spicy
+"Mix Sabzi (Carrot, Peas, Potatoes, Beans) with 2 Chapatis",Dinner,360,54.0,11.0,12.0,safe
+Balochi Sajji (Roasted Half Chicken) with 1 cup Zeera Rice,Dinner,640,52.0,51.0,25.0,safe
+"Beef Nihari with 1 Roghani Naan, Sliced Ginger & Lemon Garnish",Dinner,750,62.0,44.0,37.0,spicy;heavy_oil
+Anda Curry (Egg Curry in Onion Tomato Gravy) with 2 Chapatis,Dinner,420,44.0,19.0,19.0,spicy;acidic
+Chicken Tikka Boti (Charcoal Grilled) with Mint Raita & Fresh Salad,Dinner,380,16.0,44.0,15.0,spicy;dairy
+Mutton Shinwari Karahi (Tomato & Green Chili Gravy) with 1 Naan,Dinner,670,48.0,45.0,33.0,spicy;acidic
+"Seekh Kabab (Beef Mince Skewers, 3 pcs) with 1 Puri Paratha",Dinner,610,39.0,35.0,34.0,spicy;deep_fried
+Daal Maash Fry (White Urad Lentils) with 2 Phulkas,Dinner,460,56.0,20.0,17.0,spicy
+Kala Chana Masala (Black Chickpeas Curry) with 2 Rotis,Dinner,430,59.0,19.0,13.0,high_fodmap
+Grilled Beef Steak with Mashed Potatoes & Black Pepper Sauce,Dinner,680,36.0,52.0,36.0,dairy
+Loaded Chicken Mexican Quesadilla with Salsa & Sour Cream,Dinner,640,49.0,36.0,32.0,spicy;acidic;dairy
+Chicken Chow Mein (Pakistani Style Stir Fry Noodles),Dinner,530,68.0,28.0,16.0,safe
+Tarragon Chicken with Garlic Butter Rice & Sauteed Veggies,Dinner,610,54.0,42.0,25.0,dairy
+Crispy Fried Fish Fillet with Tartar Sauce & Coleslaw,Dinner,580,42.0,31.0,32.0,deep_fried;dairy
+Wood-Fired BBQ Chicken Pizza (3 Slices),Dinner,650,68.0,34.0,26.0,dairy
+Namkeen Gosht / Rosh (KPK Salted Tender Mutton Broth) with 1 Soft Roti,Dinner,450,32.0,39.0,18.0,bland
+Moong Dal Khichdi with 1 Tsp Desi Ghee & Fresh Plain Dahi,Dinner,380,52.0,14.0,12.0,bland;dairy
+Steamed White Pomfret with Sauteed Zucchini & Jasmine Rice,Dinner,390,44.0,34.0,8.0,bland
+Tender Boiled Shredded Chicken in Clear Broth with Boiled Rice,Dinner,360,46.0,32.0,5.5,bland
+Kadu (Pumpkin) ki Methi Sabzi with 2 Whole Wheat Phulkas,Dinner,320,49.0,8.0,10.0,bland
+Nalli Beef Nihari (Special Cut) with 2 Roghani Naans & Bone Marrow,Dinner,1050,88.0,64.0,54.0,spicy;heavy_oil
+Balochi Sajji (Full Leg & Breast) with 2 cups Flavored Rice & Raita,Dinner,980,86.0,68.0,39.0,dairy
+Texas BBQ Beef Ribs & Smoked Brisket with Garlic Mash & Butter Corn,Dinner,1060,58.0,72.0,64.0,heavy_oil;dairy
+Peshawari Chapli Kebab (3 Large Patties) with 2 Chapatis & Fresh Chutney,Dinner,920,68.0,58.0,48.0,spicy;deep_fried
+Creamy Chicken Malai Boti (8 pcs) with 2 Parathas & Zeera Raita,Dinner,940,64.0,56.0,52.0,dairy
+Roasted Chickpeas (Bhuna Chana - 50g) with Green Tea,Snack,190,29.0,11.0,3.5,safe
+Doodh Patti Chai with 2 Whole Wheat Rusks,Snack,240,33.0,6.0,9.0,dairy
+"Chana Chaat with Dahi, Onion, Tomato & Tamarind Chutney",Snack,270,42.0,10.0,6.5,spicy;acidic;dairy;high_fodmap
+Gajar ka Halwa (100g Small Cup - Traditional Sweet),Snack,330,46.0,6.0,14.0,dairy
+1 Chicken Shami Kebab with Sliced Cucumber & Mint Raita,Snack,180,12.0,14.0,8.0,dairy
+1 Vegetable Potato Samosa with Mint Green Chutney,Snack,260,32.0,4.5,13.0,deep_fried;spicy
+"Fresh Fruit Chaat (Apple, Guava, Banana & Chaat Masala)",Snack,160,38.0,2.5,0.8,safe
+Dahi Bhalla (Dahi Baray) with Chaat Masala & Papdi,Snack,290,39.0,9.0,11.0,dairy;deep_fried
+Chicken Cheese Patties from Local Bakery (1 pc),Snack,310,26.0,9.0,19.0,dairy;deep_fried
+Gol Gappay (Pani Puri - 6 pcs with Spiced Mint & Tamarind Water),Snack,210,38.0,4.0,4.5,spicy;acidic
+"Mixed Dry Fruits (Walnuts, Almonds, Kishmish - 35g)",Snack,210,14.0,6.0,16.0,safe
+Whey Protein Shake in Water with 1 Banana,Snack,230,28.0,26.0,2.0,dairy
+Chicken Tikka Sticks (2 skewers) with Lemon Wedge,Snack,170,3.0,26.0,6.0,spicy
+Roasted Phool Makhana (Lotus Seeds) in 1/2 Tsp Desi Ghee,Snack,130,21.0,3.5,3.8,bland
+Fresh Papaya Slices (1.5 cups) with Fennel Water,Snack,110,26.0,1.5,0.4,bland
+"Chilled Sweet Lassi (Low Fat Dahi, 200ml)",Snack,170,24.0,6.5,4.5,bland;dairy
+Murmura (Puffed Rice) with Roasted Peanuts & Rock Salt,Snack,150,24.0,4.5,4.0,bland
+"Mango Shake with Buffalo Milk, Vanilla Ice Cream & Crushed Pistachios (400ml)",Snack,520,74.0,12.0,19.0,dairy
+"Peanut Butter Banana Mass Shake (Whole Milk, 2 Bananas, Whey, Honey)",Snack,580,68.0,34.0,20.0,dairy
+2 Chicken Cheese Naan Pockets with Garlic Mayo Dip,Snack,540,52.0,24.0,26.0,dairy;deep_fried
+Bakery Cream Roll & 2 Almond Macaroons with Doodh Patti Chai,Snack,480,62.0,8.0,22.0,dairy
+"Loaded Samosa Chaat (2 Samosas crushed with Chana, Dahi & Meethi Chutney)",Snack,560,72.0,14.0,24.0,deep_fried;dairy;spicy;high_fodmap

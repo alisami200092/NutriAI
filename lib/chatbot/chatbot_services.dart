@@ -7,9 +7,17 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 
+import 'package:nutriapp/services/red_flag_triage_service.dart';
+
 final _serviceLogger = Logger();
 
 class ChatbotService {
+  static const String redFlagTriageNotice = RedFlagTriageService.triageNotice;
+
+  /// Checks for clinical red-flag symptoms requiring immediate medical triage.
+  static bool hasRedFlagSymptoms(String input) =>
+      RedFlagTriageService.hasRedFlag(input);
+
   static Future<void> ensureEnvLoaded() async {
     if (!dotenv.isInitialized) {
       try {
@@ -252,17 +260,38 @@ You are NutriBot, an empathetic, friendly personal nutrition coach and wellness 
    - Keep answers conversational in natural, pleasant paragraphs with warm emojis.
 2. **Context-Aware Suggestions**:
    - You always know what they ate today. If they ask what to eat for lunch or dinner, look at their remaining calories ($remainingCals kcal) and protein (${proteinEaten}g so far), and warmly recommend specific meals from their preferred cuisine ($dietType) that fit their remaining budget.
-3. **Medical Guardrails**:
-   - If the user has health conditions ($conditions), warn them warmly if a food they ask about can cause issues (e.g. sugar spikes in diabetes, sodium in hypertension).
-   - Never diagnose diseases or prescribe medication. If red-flag symptoms are reported, advise seeing a doctor.
+3. **Strict Medical Guardrails & Clinical Non-Prescriptive Safety Boundaries**:
+   - You are a supportive nutrition and wellness coach, NOT a medical doctor or physician.
+   - You must NEVER suggest, recommend, or prescribe medications (e.g., antacids, loperamide, laxatives, bismuth, antibiotics, omeprazole, painkillers) and NEVER diagnose diseases, conditions, or illnesses.
+   - Non-prescriptive dietary and lifestyle guidance ONLY.
+   - ⚠️ IMMEDIATE RED-FLAG SYMPTOM TRIAGE GUARD:
+     If the user reports any of the following critical red-flag warning signs:
+     • Severe localized / sharp abdominal pain
+     • High fever
+     • Blood in stool / black stool
+     • Continuous vomiting or unable to hold liquids for 24 hours
+     • Unexplained fainting or severe dizziness
+     You MUST IMMEDIATELY DISENGAGE from meal planning and dietary suggestions.
+     Do NOT recommend home remedies, foods, or medicines.
+     Output EXACTLY this mandatory clinical triage notice:
+     "⚠️ These symptoms may require immediate medical attention. Please consult a qualified doctor or visit an urgent care center promptly."
+
 4. **App Tools Execution**:
    - When the user mentions eating something, call `log_meal`.
    - When the user logs water, call `log_water`.
    - When the user wants to adjust their dashboard meal plan, call `update_meal_plan`.
    - When the user wants to update their weight target or calorie goal, call `update_user_goals`.
    - When the user asks for their full daily summary, call `get_daily_summary`.
-   - When the user mentions digestive discomfort, reflux, bloating, cramps, nausea, or upset stomach, IMMEDIATELY call `report_gi_symptoms` with active triggers (spicy, acidic, dairy, high_fodmap, deep_fried, caffeine, carbonated, artificial_sweeteners, gluten).
-   - When the user feels better, call `deactivate_gut_shield`.
+   - When the user mentions digestive distress, upset stomach, or GI motility changes, IMMEDIATELY call `report_gi_symptoms`:
+     • If Constipation (e.g., haven't gone in 2 days, straining, hard stool):
+       motility_state: "constipation", dietary_strategy: "high_fiber_hydration", blocked_triggers: ["dry_refined"]
+     • If Diarrhea / loose stools (e.g., watery stools, stomach running, loose motions):
+       motility_state: "diarrhea", dietary_strategy: "low_residue_bland", blocked_triggers: ["spicy", "dairy", "heavy_oil", "insoluble_roughage"]
+     • If Nausea (e.g., feeling sick to stomach, queasy, want to throw up):
+       motility_state: "nausea", dietary_strategy: "gastric_sparing", blocked_triggers: ["heavy_oil", "spicy", "heavy_fat"]
+     • If other digestive discomfort (reflux, heartburn, bloating):
+       motility_state: "normal", dietary_strategy: "normal", blocked_triggers: ["spicy", "acidic", "deep_fried"]
+   - When the user reports feeling better or wanting to deactivate Gut Shield, call `deactivate_gut_shield`.
 """;
   }
 
@@ -277,6 +306,11 @@ You are NutriBot, an empathetic, friendly personal nutrition coach and wellness 
     File? imageFile,
   }) async {
     try {
+      // Deterministic Red-Flag Triage Guard:
+      if (hasRedFlagSymptoms(userText)) {
+        return redFlagTriageNotice;
+      }
+
       await ensureEnvLoaded();
       final apiKey = dotenv.env['OPENAI_API_KEY'];
 
@@ -460,39 +494,45 @@ You are NutriBot, an empathetic, friendly personal nutrition coach and wellness 
             },
           },
         },
-        // 6. Report GI Symptoms (Gut Shield Activation)
+        // 6. Report GI Symptoms (Gut Shield & Motility Management)
         {
           "type": "function",
           "function": {
             "name": "report_gi_symptoms",
             "description":
-                "Triggered when user mentions digestive distress (bloating, reflux, nausea, cramping, burning stomach, upset stomach, diarrhea).",
+                "Triggered when user mentions digestive distress, motility changes (constipation, diarrhea, nausea), bloating, reflux, or cramping.",
             "parameters": {
               "type": "object",
               "properties": {
-                "active_gi_triggers": {
+                "motility_state": {
+                  "type": "string",
+                  "enum": ["constipation", "diarrhea", "nausea", "normal"],
+                  "description":
+                      "Functional GI motility state: 'constipation', 'diarrhea', 'nausea', or 'normal'.",
+                },
+                "dietary_strategy": {
+                  "type": "string",
+                  "enum": [
+                    "high_fiber_hydration",
+                    "low_residue_bland",
+                    "gastric_sparing",
+                    "normal"
+                  ],
+                  "description":
+                      "Targeted dietary strategy: 'high_fiber_hydration' (for constipation), 'low_residue_bland' (for diarrhea), 'gastric_sparing' (for nausea), or 'normal'.",
+                },
+                "blocked_triggers": {
                   "type": "array",
                   "items": {
                     "type": "string",
-                    "enum": [
-                      "spicy",
-                      "acidic",
-                      "dairy",
-                      "high_fodmap",
-                      "deep_fried",
-                      "caffeine",
-                      "carbonated",
-                      "artificial_sweeteners",
-                      "gluten"
-                    ],
                   },
                   "description":
-                      "List of digestive trigger categories to exclude from upcoming meals.",
+                      "List of trigger categories to block (e.g. ['dry_refined'] for constipation; ['spicy', 'dairy', 'heavy_oil', 'insoluble_roughage'] for diarrhea; ['heavy_oil', 'spicy', 'heavy_fat'] for nausea).",
                 },
                 "symptom_summary": {
                   "type": "string",
                   "description":
-                      "Brief summary of user's symptoms (e.g. 'acid reflux and heartburn', 'severe bloating').",
+                      "Brief clinical non-diagnostic summary of the user's reported symptoms.",
                 },
                 "is_flare_up": {
                   "type": "boolean",
@@ -501,7 +541,9 @@ You are NutriBot, an empathetic, friendly personal nutrition coach and wellness 
                 },
               },
               "required": [
-                "active_gi_triggers",
+                "motility_state",
+                "dietary_strategy",
+                "blocked_triggers",
                 "symptom_summary",
                 "is_flare_up"
               ],
@@ -601,7 +643,7 @@ You are NutriBot, an empathetic, friendly personal nutrition coach and wellness 
       } else {
         for (final m in recentMeals) {
           mealsBuffer.writeln(
-            "- [${m['category'] ?? 'Meal'}] ${m['name'] ?? 'Food Item'} (${m['calories'] ?? 0} kcal)",
+            "- ${m['category'] ?? 'Meal'}: ${m['name'] ?? 'Food Item'} (${m['calories'] ?? 0} kcal)",
           );
         }
       }
@@ -627,10 +669,11 @@ INSTRUCTIONS:
    [PATIENT DEMOGRAPHICS & CLINICAL CONTEXT]
    [NUTRITIONAL RECALL & GI TRIGGER CORRELATION]
    [CONSIDERATIONS FOR THE PHYSICIAN]
-2. Under each section, write concise, professional clinical sentences or clean bullet points (•) describing the patient's data, logged meals, and potential food triggers (acidic, spicy, dairy, high FODMAP, etc.).
-3. Maintain an objective, professional, and clinical scribe tone (avoid casual conversational chatter or emojis).
-4. Do NOT invent fake vitals or lab results. Stick strictly to the patient's data.
-5. End with a short standard observational disclaimer.
+2. Under each section, write concise, professional clinical sentences or clean bullet points describing the patient's data, logged meals, and potential food triggers (acidic, spicy, dairy, high FODMAP, etc.).
+3. Present static facts, findings, and history as clean bullet points (-). NEVER use checklist tick boxes, bracketed boxes, or task boxes like '[ ]', '[x]', or '[X]'.
+4. Maintain an objective, professional, and clinical scribe tone (avoid casual conversational chatter or emojis).
+5. Do NOT invent fake vitals or lab results. Stick strictly to the patient's data.
+6. End with a short standard observational disclaimer.
 """;
 
       final response = await http.post(

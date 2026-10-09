@@ -43,7 +43,6 @@ class _DietPreferencePageState extends State<DietPreferencePage> {
     {'emoji': '⚖️', 'label': 'Balanced'},
     {'emoji': '🏺', 'label': 'Mediterranean'},
     {'emoji': '🥑', 'label': 'Keto'},
-    {'emoji': '🍖', 'label': 'Paleo'},
     {'emoji': '🥗', 'label': 'Dash'},
     {'emoji': '🍞🚫', 'label': 'Low Carb'},
     {'emoji': '💪', 'label': 'High Protein'},

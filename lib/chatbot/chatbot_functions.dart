@@ -235,10 +235,22 @@ mixin ChatbotLogic on State<ChatbotPage> {
     });
     scrollToLatest();
 
-    // 2. Fetch Recent Conversation History for memory
+    // 2. Immediate Clinical Red-Flag Triage Check
+    if (ChatbotService.hasRedFlagSymptoms(trimmed)) {
+      await _showBotTypingThenReply(ChatbotService.redFlagTriageNotice);
+      if (!mounted) return;
+      setState(() {
+        isLoading = false;
+        showTyping = false;
+      });
+      dotsController.stop();
+      return;
+    }
+
+    // 3. Fetch Recent Conversation History for memory
     final history = await chatProvider.getRecentMessages(limit: 6);
 
-    // 3. Ensure profile is loaded and fetch reply with live context & tools
+    // 4. Ensure profile is loaded and fetch reply with live context & tools
     profile ??= await ChatbotService.loadUserProfile();
 
     final response = await ChatbotService.fetchGptTurboReply(
@@ -314,9 +326,16 @@ mixin ChatbotLogic on State<ChatbotPage> {
           String result = await _performDailySummaryFetch();
           logResults.add(result);
         }
-        // --- Tool 6: report_gi_symptoms (Gut Shield Activation) ---
+        // --- Tool 6: report_gi_symptoms (Gut Shield & Motility Management) ---
         else if (functionName == "report_gi_symptoms") {
-          final rawTriggers = (args["active_gi_triggers"] as List?)
+          final motilityState =
+              (args["motility_state"] as String?)?.toLowerCase().trim() ??
+                  "normal";
+          final dietaryStrategy =
+              (args["dietary_strategy"] as String?)?.toLowerCase().trim() ??
+                  "normal";
+          final rawTriggers = ((args["blocked_triggers"] as List?) ??
+                      (args["active_gi_triggers"] as List?))
                   ?.map((e) => e.toString().toLowerCase().trim())
                   .toList() ??
               [];
@@ -324,6 +343,8 @@ mixin ChatbotLogic on State<ChatbotPage> {
               args["symptom_summary"] as String? ?? "digestive discomfort";
           final isFlareUp = args["is_flare_up"] == true;
           String result = await _performReportGiSymptoms(
+            motilityState: motilityState,
+            dietaryStrategy: dietaryStrategy,
             triggers: rawTriggers,
             symptomSummary: summary,
             isFlareUp: isFlareUp,
@@ -478,8 +499,10 @@ Here is your nutrition summary for today:
     }
   }
 
-  // --- Tool 6 Helper: Report GI Symptoms (Gut Shield) ---
+  // --- Tool 6 Helper: Report GI Symptoms (Gut Shield & Motility Management) ---
   Future<String> _performReportGiSymptoms({
+    required String motilityState,
+    required String dietaryStrategy,
     required List<String> triggers,
     required String symptomSummary,
     required bool isFlareUp,
@@ -490,21 +513,42 @@ Here is your nutrition summary for today:
         return "Please log in so I can update your Gut Shield profile.";
       }
 
+      final gutData = {
+        'gut_shield_active': true,
+        'motility_state': motilityState,
+        'dietary_strategy': dietaryStrategy,
+        'blocked_triggers': triggers,
+        'active_gi_triggers': triggers, // Backward compatibility
+        'symptom_summary': symptomSummary,
+        'last_gi_incident': FieldValue.serverTimestamp(),
+      };
+
       await FirebaseFirestore.instance
           .collection('UserProfiles')
           .doc(user.uid)
-          .set({
-        'gut_shield_active': true,
-        'active_gi_triggers': triggers,
-        'symptom_summary': symptomSummary,
-        'last_gi_incident': FieldValue.serverTimestamp(),
-      }, SetOptions(merge: true));
+          .set(gutData, SetOptions(merge: true));
 
-      final triggerLabels = triggers
-          .map((t) => t.replaceAll('_', ' '))
-          .join(', ');
+      try {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .set(gutData, SetOptions(merge: true));
+      } catch (_) {}
 
-      return "Gut Shield Activated: I have adjusted your meals to avoid $triggerLabels to help ease your $symptomSummary. You can check the dashboard for gut-safe recommendations.";
+      final triggerLabels = triggers.map((t) => t.replaceAll('_', ' ')).join(', ');
+
+      String strategyNote = "";
+      if (motilityState == "constipation") {
+        strategyNote = "Prioritizing high-fiber, hydrating foods and filtering out dry refined foods.";
+      } else if (motilityState == "diarrhea") {
+        strategyNote = "Switching to low-residue, soothing meals while blocking dairy, roughage, heavy oils, and spices.";
+      } else if (motilityState == "nausea") {
+        strategyNote = "Switching to gastric-sparing meals, avoiding heavy fats, oils, and strong spices.";
+      } else {
+        strategyNote = "Filtered out $triggerLabels to ease $symptomSummary.";
+      }
+
+      return "Gut Shield Activated: $strategyNote Check your dashboard for tailored, safe recommendations.";
     } catch (e) {
       logger.e("Error reporting GI symptoms: $e");
       return "Unable to activate Gut Shield at this time.";
@@ -519,16 +563,28 @@ Here is your nutrition summary for today:
         return "Please log in so I can update your Gut Shield profile.";
       }
 
+      final resetData = {
+        'gut_shield_active': false,
+        'motility_state': 'normal',
+        'dietary_strategy': 'normal',
+        'blocked_triggers': <String>[],
+        'active_gi_triggers': <String>[],
+        'gut_shield_deactivated_at': FieldValue.serverTimestamp(),
+      };
+
       await FirebaseFirestore.instance
           .collection('UserProfiles')
           .doc(user.uid)
-          .set({
-        'gut_shield_active': false,
-        'active_gi_triggers': <String>[],
-        'gut_shield_deactivated_at': FieldValue.serverTimestamp(),
-      }, SetOptions(merge: true));
+          .set(resetData, SetOptions(merge: true));
 
-      return "Gut Shield Deactivated: Your standard meal plan preferences have been restored.";
+      try {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .set(resetData, SetOptions(merge: true));
+      } catch (_) {}
+
+      return "Gut Shield Deactivated: Motility state reset to normal, and standard meal plan preferences have been restored.";
     } catch (e) {
       logger.e("Error deactivating Gut Shield: $e");
       return "Unable to deactivate Gut Shield at this time.";

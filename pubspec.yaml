@@ -75,6 +75,14 @@ flutter:
     - assets/fyp_meal_plan.csv
     - assets/fyp_indian_meal_plan.csv
     - assets/fyp_pakistan_meal_plan.csv
+    - assets/fyp_keto_meal_plan.csv
+    - assets/fyp_mediterranean_meal_plan.csv
+    - assets/fyp_dash_meal_plan.csv
+    - assets/pakistani_dish_gi_tags.csv
+    - assets/indian_dish_gi_tags.csv
+    - assets/keto_dish_gi_tags.csv
+    - assets/mediterranean_dish_gi_tags.csv
+    - assets/dash_dish_gi_tags.csv
     - assets/best_float32.tflite
     - assets/calorie_model.tflite
     - assets/api-key.env 

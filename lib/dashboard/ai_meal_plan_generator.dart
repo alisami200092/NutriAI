@@ -73,6 +73,21 @@ class AIMealPlanGenerator {
   static final List<MealItem> _indianDinners = [];
   static final List<MealItem> _indianSnacks = [];
 
+  static final List<MealItem> _ketoBreakfasts = [];
+  static final List<MealItem> _ketoLunches = [];
+  static final List<MealItem> _ketoDinners = [];
+  static final List<MealItem> _ketoSnacks = [];
+
+  static final List<MealItem> _mediterraneanBreakfasts = [];
+  static final List<MealItem> _mediterraneanLunches = [];
+  static final List<MealItem> _mediterraneanDinners = [];
+  static final List<MealItem> _mediterraneanSnacks = [];
+
+  static final List<MealItem> _dashBreakfasts = [];
+  static final List<MealItem> _dashLunches = [];
+  static final List<MealItem> _dashDinners = [];
+  static final List<MealItem> _dashSnacks = [];
+
   static final List<MealItem> _generalBreakfasts = [];
   static final List<MealItem> _generalLunches = [];
   static final List<MealItem> _generalDinners = [];
@@ -97,6 +112,21 @@ class AIMealPlanGenerator {
       _indianLunches.clear();
       _indianDinners.clear();
       _indianSnacks.clear();
+
+      _ketoBreakfasts.clear();
+      _ketoLunches.clear();
+      _ketoDinners.clear();
+      _ketoSnacks.clear();
+
+      _mediterraneanBreakfasts.clear();
+      _mediterraneanLunches.clear();
+      _mediterraneanDinners.clear();
+      _mediterraneanSnacks.clear();
+
+      _dashBreakfasts.clear();
+      _dashLunches.clear();
+      _dashDinners.clear();
+      _dashSnacks.clear();
 
       _generalBreakfasts.clear();
       _generalLunches.clear();
@@ -147,9 +177,75 @@ class AIMealPlanGenerator {
         sList: _indianSnacks,
       );
 
+      // --- 4. Load Keto Data ---
+      try {
+        final rawKeto = await rootBundle.loadString(
+          'assets/fyp_keto_meal_plan.csv',
+        );
+        List<List<dynamic>> ketoData = const CsvToListConverter(
+          eol: '\n',
+          shouldParseNumbers: true,
+        ).convert(rawKeto.replaceAll('\r\n', '\n'));
+        _parseRegionalData(
+          ketoData,
+          cuisineTag: "Keto",
+          bList: _ketoBreakfasts,
+          lList: _ketoLunches,
+          dList: _ketoDinners,
+          sList: _ketoSnacks,
+        );
+      } catch (e) {
+        developer.log("⚠️ Could not load fyp_keto_meal_plan.csv: $e", name: 'AIMealPlanGenerator');
+      }
+
+      // --- 5. Load Mediterranean Data ---
+      try {
+        final rawMed = await rootBundle.loadString(
+          'assets/fyp_mediterranean_meal_plan.csv',
+        );
+        List<List<dynamic>> medData = const CsvToListConverter(
+          eol: '\n',
+          shouldParseNumbers: true,
+        ).convert(rawMed.replaceAll('\r\n', '\n'));
+        _parseRegionalData(
+          medData,
+          cuisineTag: "Mediterranean",
+          bList: _mediterraneanBreakfasts,
+          lList: _mediterraneanLunches,
+          dList: _mediterraneanDinners,
+          sList: _mediterraneanSnacks,
+        );
+      } catch (e) {
+        developer.log("⚠️ Could not load fyp_mediterranean_meal_plan.csv: $e", name: 'AIMealPlanGenerator');
+      }
+
+      // --- 6. Load DASH Data ---
+      try {
+        final rawDash = await rootBundle.loadString(
+          'assets/fyp_dash_meal_plan.csv',
+        );
+        List<List<dynamic>> dashData = const CsvToListConverter(
+          eol: '\n',
+          shouldParseNumbers: true,
+        ).convert(rawDash.replaceAll('\r\n', '\n'));
+        _parseRegionalData(
+          dashData,
+          cuisineTag: "DASH",
+          bList: _dashBreakfasts,
+          lList: _dashLunches,
+          dList: _dashDinners,
+          sList: _dashSnacks,
+        );
+      } catch (e) {
+        developer.log("⚠️ Could not load fyp_dash_meal_plan.csv: $e", name: 'AIMealPlanGenerator');
+      }
+
+      // --- 7. Load Explicit GI Tag Catalogs for 100% Deterministic Gut Shield ---
+      await GiTriggerService.loadDishTags();
+
       isLoaded = true;
       developer.log(
-        "✅ AIMealPlanGenerator: Loaded Pakistani (${_pakistaniBreakfasts.length}B/${_pakistaniLunches.length}L/${_pakistaniDinners.length}D/${_pakistaniSnacks.length}S), Indian (${_indianBreakfasts.length}B/${_indianLunches.length}L/${_indianDinners.length}D/${_indianSnacks.length}S), General (${_generalBreakfasts.length}B)",
+        "✅ AIMealPlanGenerator: Loaded Pak (${_pakistaniBreakfasts.length}B), Ind (${_indianBreakfasts.length}B), Keto (${_ketoBreakfasts.length}B), Med (${_mediterraneanBreakfasts.length}B), DASH (${_dashBreakfasts.length}B), Gen (${_generalBreakfasts.length}B)",
         name: 'AIMealPlanGenerator',
       );
     } catch (e) {
@@ -407,10 +503,28 @@ class AIMealPlanGenerator {
   // 3. RETRIEVAL & FILTERING ENGINE
   // ---------------------------------------------------------------------------
   static List<MealItem> _getPoolForCuisine(String type, String cleanCuisine) {
-    final bool isPak = cleanCuisine.contains('pakistan');
-    final bool isInd = cleanCuisine.contains('indian');
+    final bool isKeto = cleanCuisine.contains('keto');
+    final bool isMed = cleanCuisine.contains('mediterranean');
+    final bool isDash = cleanCuisine.contains('dash');
+    final bool isPak = !isKeto && !isMed && !isDash && cleanCuisine.contains('pakistan');
+    final bool isInd = !isKeto && !isMed && !isDash && !isPak && cleanCuisine.contains('indian');
 
-    if (isPak) {
+    if (isKeto) {
+      if (type == "Breakfast" && _ketoBreakfasts.isNotEmpty) return _ketoBreakfasts;
+      if (type == "Lunch" && _ketoLunches.isNotEmpty) return _ketoLunches;
+      if (type == "Dinner" && _ketoDinners.isNotEmpty) return _ketoDinners;
+      if (type == "Snack" && _ketoSnacks.isNotEmpty) return _ketoSnacks;
+    } else if (isMed) {
+      if (type == "Breakfast" && _mediterraneanBreakfasts.isNotEmpty) return _mediterraneanBreakfasts;
+      if (type == "Lunch" && _mediterraneanLunches.isNotEmpty) return _mediterraneanLunches;
+      if (type == "Dinner" && _mediterraneanDinners.isNotEmpty) return _mediterraneanDinners;
+      if (type == "Snack" && _mediterraneanSnacks.isNotEmpty) return _mediterraneanSnacks;
+    } else if (isDash) {
+      if (type == "Breakfast" && _dashBreakfasts.isNotEmpty) return _dashBreakfasts;
+      if (type == "Lunch" && _dashLunches.isNotEmpty) return _dashLunches;
+      if (type == "Dinner" && _dashDinners.isNotEmpty) return _dashDinners;
+      if (type == "Snack" && _dashSnacks.isNotEmpty) return _dashSnacks;
+    } else if (isPak) {
       if (type == "Breakfast" && _pakistaniBreakfasts.isNotEmpty) return _pakistaniBreakfasts;
       if (type == "Lunch" && _pakistaniLunches.isNotEmpty) return _pakistaniLunches;
       if (type == "Dinner" && _pakistaniDinners.isNotEmpty) return _pakistaniDinners;
@@ -470,6 +584,7 @@ class AIMealPlanGenerator {
     int? calorieBudget,
     bool forceNew = false,
     List<String> activeGiTriggers = const [],
+    String dietaryStrategy = "normal",
   }) {
     final String cleanCuisine =
         (cuisine ?? dietPreference ?? '').toLowerCase().trim();
@@ -506,6 +621,47 @@ class AIMealPlanGenerator {
       // Clinical Fallback safeguard: maintain safe candidates per meal slot
       if (giSafePool.isNotEmpty) {
         pool = giSafePool;
+      }
+    }
+
+    // 1.6 Strategy adjustment for Motility States:
+    final cleanStrategy = dietaryStrategy.toLowerCase().trim();
+    if (cleanStrategy == "high_fiber_hydration") {
+      // Prioritize high fiber (>= 6g) meals (e.g., Oats, Papaya, Moong Dal, Lauki)
+      final highFiber = pool.where((m) => GiTriggerService.isHighFiber(
+        m.title,
+        tags: m.dietaryTags,
+        nutrition: m.nutrition,
+      )).toList();
+      if (highFiber.length >= 3) {
+        pool = highFiber;
+      }
+    } else if (cleanStrategy == "low_residue_bland" || cleanStrategy == "gastric_sparing") {
+      // Prioritize gentle, bland, low-fat items (e.g., Khichdi, Idli, Steamed Rice, Plain Dahi/Toast)
+      final blandOptions = pool.where((m) => GiTriggerService.isBland(
+        m.title,
+        tags: m.dietaryTags,
+      )).toList();
+      if (blandOptions.length >= 3) {
+        pool = blandOptions;
+      }
+    }
+
+    // Safeguard Fallback: if pool is smaller than 3, fallback to safe filtered meals
+    if (pool.length < 3 && basePool.isNotEmpty) {
+      final safeFallback = basePool.where((m) {
+        return GiTriggerService.isFoodSafe(
+          m.title,
+          activeGiTriggers,
+          explicitTriggers: m.giTriggers,
+        );
+      }).toList();
+      if (safeFallback.length >= 3) {
+        pool = safeFallback;
+      } else if (safeFallback.isNotEmpty) {
+        pool = safeFallback;
+      } else {
+        pool = List<MealItem>.from(basePool);
       }
     }
 
@@ -618,6 +774,7 @@ class AIMealPlanGenerator {
     int? calorieBudget,
     bool forceNew = false,
     List<String> activeGiTriggers = const [],
+    String dietaryStrategy = "normal",
   }) {
     return _pickMeal(
       type: "Breakfast",
@@ -630,6 +787,7 @@ class AIMealPlanGenerator {
       calorieBudget: calorieBudget,
       forceNew: forceNew,
       activeGiTriggers: activeGiTriggers,
+      dietaryStrategy: dietaryStrategy,
     );
   }
 
@@ -643,6 +801,7 @@ class AIMealPlanGenerator {
     int? calorieBudget,
     bool forceNew = false,
     List<String> activeGiTriggers = const [],
+    String dietaryStrategy = "normal",
   }) {
     return _pickMeal(
       type: "Lunch",
@@ -655,6 +814,7 @@ class AIMealPlanGenerator {
       calorieBudget: calorieBudget,
       forceNew: forceNew,
       activeGiTriggers: activeGiTriggers,
+      dietaryStrategy: dietaryStrategy,
     );
   }
 
@@ -668,6 +828,7 @@ class AIMealPlanGenerator {
     int? calorieBudget,
     bool forceNew = false,
     List<String> activeGiTriggers = const [],
+    String dietaryStrategy = "normal",
   }) {
     return _pickMeal(
       type: "Dinner",
@@ -680,6 +841,7 @@ class AIMealPlanGenerator {
       calorieBudget: calorieBudget,
       forceNew: forceNew,
       activeGiTriggers: activeGiTriggers,
+      dietaryStrategy: dietaryStrategy,
     );
   }
 
@@ -693,6 +855,7 @@ class AIMealPlanGenerator {
     int? calorieBudget,
     bool forceNew = false,
     List<String> activeGiTriggers = const [],
+    String dietaryStrategy = "normal",
   }) {
     return _pickMeal(
       type: "Snack",
@@ -705,6 +868,7 @@ class AIMealPlanGenerator {
       calorieBudget: calorieBudget,
       forceNew: forceNew,
       activeGiTriggers: activeGiTriggers,
+      dietaryStrategy: dietaryStrategy,
     );
   }
 }

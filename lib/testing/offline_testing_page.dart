@@ -131,7 +131,13 @@ class _OfflineTestingPageState extends State<OfflineTestingPage> {
       // Step 2: Meals
       String lowerDiet = widget.dietType.toLowerCase();
       String cuisineChoice = "balanced";
-      if (lowerDiet.contains("pakistan")) {
+      if (lowerDiet.contains("keto")) {
+        cuisineChoice = "keto";
+      } else if (lowerDiet.contains("mediterranean")) {
+        cuisineChoice = "mediterranean";
+      } else if (lowerDiet.contains("dash")) {
+        cuisineChoice = "dash";
+      } else if (lowerDiet.contains("pakistan")) {
         cuisineChoice = "pakistan";
       } else if (lowerDiet.contains("indian")) {
         cuisineChoice = "indian";
